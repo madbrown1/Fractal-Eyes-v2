@@ -7,16 +7,38 @@
 import sys
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
 
-class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self,*args,**kwargs):
-        super().__init__(*args, **kwargs)
+
+
+import Functions as f
+
+class Ui(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Ui,self).__init__()
         uic.loadUi("Ex_GUI.ui", self)
 
 
-app = QtWidgets.QApplication(sys.argv)
-window = MainWindow()
-window.show()
-app.exec()
+        self.button1 = self.findChild(QtWidgets.QPushButton, 'pushButton')
+        self.button2 = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
+        self.button3 = self.findChild(QtWidgets.QPushButton, 'pushButton_3')
+        self.button4 = self.findChild(QtWidgets.QPushButton, 'pushButton_4')
+
+
+
+
+
+        self.button1.clicked.connect(self.ImportImage) #import Image
+        self.button2.clicked.connect(lambda: f.test(self.button2.objectName())) #import patient data
+        self.button3.clicked.connect(lambda: f.test(self.button3.objectName())) #import save patient data
+        self.button4.clicked.connect(lambda: f.test(self.button4.objectName())) #FRACTALIZE EXTRACT
+
+    def ImportImage(self):
+        self.ImagePath, self.filter = QtWidgets.QFileDialog.getOpenFileName(None, 'OpenFile', '', "Image file(*.jpg *.png *.tif)")
+        print(self.ImagePath)
+
+
 
 if __name__ == "__main__":
-    print("Here")
+    app = QtWidgets.QApplication(sys.argv)
+    window = Ui()
+    window.show()
+    app.exec()

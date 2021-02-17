@@ -17,6 +17,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
+def test(string):
+    print(string)
+
 def Feature_Extraction():
     pd.set_option('display.max_columns', 100)
 
