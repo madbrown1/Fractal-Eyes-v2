@@ -33,7 +33,14 @@ class Ui(QtWidgets.QMainWindow):
 
     def ImportImage(self):
         self.ImagePath, self.filter = QtWidgets.QFileDialog.getOpenFileName(None, 'OpenFile', '', "Image file(*.jpg *.png *.tif)")
-        print(self.ImagePath)
+        self.label3 = self.findChild(QtWidgets.QLabel, 'label_3')
+        if self.ImagePath != "":
+            pixmap = QtGui.QPixmap(self.ImagePath)
+
+            self.label3.setGeometry(0, 0, self.frameGeometry().width()/2.2, self.frameGeometry().height()/2.2)
+            self.label3.setScaledContents(True)
+
+            self.label3.setPixmap(pixmap)
 
 
 
