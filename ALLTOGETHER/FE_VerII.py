@@ -18,7 +18,7 @@ import plotly.graph_objects as go
 from fractions import Fraction
 from matplotlib.ticker import NullFormatter
 
-import feFunc
+import Functions
 
 
 pd.set_option('display.max_columns', 100) ## Should make 100 columns of the DataFrame able to be displayed without cutting them out
@@ -92,10 +92,10 @@ for sub in Files:
     img_size = h*w
     
 
-    labels = feFunc.binary_thresholding(img)
-    table = feFunc.gain_regionprops(labels, img)
-    table, grid_table = feFunc.data_calculation(table, GUI_list)
-    feFunc.data_organization(table, grid_table, featurepath)
+    labels = Functions.binary_thresholding(img)
+    table = Functions.gain_regionprops(labels, img)
+    table, grid_table = Functions.data_calculation(table, GUI_list)
+    Functions.data_organization(table, grid_table, featurepath)
 
 
     ##Check (DEBUG)
