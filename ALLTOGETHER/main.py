@@ -6,7 +6,7 @@
 
 import sys
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
-
+import
 
 
 import Functions as f
@@ -70,6 +70,8 @@ class Ui(QtWidgets.QMainWindow):
 
         if self.PatientBool and self.saveBool and self.fileSelected and self.rowSpin.value() != 0 and self.colSpin.value() != 0:
             print("Still under development")
+
+            self.imgGrid = f.VoxelCreate(self.colSpin.value(),self.rowSpin.value(),self.ImagePath)
             #image preprocessing functions
                 #image resizing
                 #image normalization
