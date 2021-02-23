@@ -6,7 +6,7 @@
 
 import sys
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
-import
+
 
 
 import Functions as f
@@ -25,10 +25,6 @@ class Ui(QtWidgets.QMainWindow):
         self.button2 = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
         self.button3 = self.findChild(QtWidgets.QPushButton, 'pushButton_3')
         self.button4 = self.findChild(QtWidgets.QPushButton, 'pushButton_4')
-
-
-
-
 
         self.button1.clicked.connect(self.ImportImage) #import Image
         self.button2.clicked.connect(self.ImportPatientData) #import patient data
@@ -53,6 +49,7 @@ class Ui(QtWidgets.QMainWindow):
         print(self.saveDestination)
         self.saveBool = True
 
+
     def ImportPatientData(self):
         self.patientData, self.filter = QtWidgets.QFileDialog.getOpenFileName(None, 'OpenFile', '',
                                                                             "Patient Data(*.txt *.dat)")
@@ -62,16 +59,30 @@ class Ui(QtWidgets.QMainWindow):
     def Fractalize(self):
         self.rowSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox')
         self.colSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox_2')
-        print(self.rowSpin.value())
-        print(self.colSpin.value())
-
-
-
 
         if self.PatientBool and self.saveBool and self.fileSelected and self.rowSpin.value() != 0 and self.colSpin.value() != 0:
-            print("Still under development")
+
 
             self.imgGrid = f.VoxelCreate(self.colSpin.value(),self.rowSpin.value(),self.ImagePath)
+            #user decides voxel shape
+            # if user selects rectangle
+                #move on
+            #if user selects 2 triangles
+                #call tri 2 voxel
+            #if user selects 4 triangles
+            self.outVoxel = f.tri4Voxel(self.imgGrid, self.colSpin.value(),self.rowSpin.value())
+            # Still waiting for circles
+            #Move on to image classification
+                #classification of image voxel through CNN
+
+            ###FEATURE EXTRACTION
+            self.labels = f.binary_thresholding(self.outVoxel)
+            self.table = f.gain_regionprops(self.labels, self.outVoxel)
+            self.saveTable, self.gvg = f.data_calculation(self.table) #include list of strings as argument for features, )
+            f.data_organization(self.saveTable, self.gvg, self.saveDestination)
+            #########################################################################################
+
+
             #image preprocessing functions
                 #image resizing
                 #image normalization
