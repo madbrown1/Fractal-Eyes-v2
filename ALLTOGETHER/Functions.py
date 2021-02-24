@@ -168,74 +168,31 @@ def Feature_Extraction():
 
 
 def VoxelCreate(numCol, numRow, img):
-    # This function will divide the image into user col and row voxels
+    #This function will divide the image into user col and row voxels 
+    
+    #Grab current size of image
+    w , h = img.shape
+    #Find pixel length and witdh for each grid
+    numPixelCol = int(w/numCol)
+    numPixelRow = int(h/numRow)
 
-    # Grab current size of image
-    w, h, z = img.shape
-    # Find pixel length and witdh for each grid
-    numPixelCol = int(w / numCol)
-    numPixelRow = int(h / numRow)
-
-    # Grid images, note final grid will be in form of y,x due to line 40 arrangement
-    imgGrid = [[0 for x in range(numCol)] for y in range(numRow)]
+    #Grid images, note final grid will be in form of y,x due to line 40 arrangement
+    imgGrid = [[0 for x in range(numCol)] for y in range(numRow)] 
     start_x = 0
     for x_w in range(0, numCol, 1):
         start_y = 0
-        # print("start_x: " + str(start_x)) #Check for correct position
-
+        #print("start_x: " + str(start_x)) #Check for correct position
+    
         for y_h in range(0, numRow, 1):
-            # print("start_y: " + str(start_y)) #Check for correct position
+            #print("start_y: " + str(start_y)) #Check for correct position
             # grid part works as from the from start til entire length of subgrid
-            # Length of voxel is dependent on what position of the grid it is in
-
-            imgGrid[x_w][y_h] = img[start_x:numPixelCol * (x_w + 1), start_y:numPixelRow * (y_h + 1)]
-            start_y = numPixelRow * (y_h + 1)
-
-        start_x = numPixelCol * (x_w + 1)
+            #Length of voxel is dependent on what position of the grid it is in
+            
+            imgGrid[y_h][x_w] = img[start_x:numPixelCol*(x_w+1),start_y:numPixelRow*(y_h+1)]
+            start_y = numPixelRow*(y_h+1)
+        
+        start_x = numPixelCol*(x_w+1)
     return imgGrid
-
-
-def plotVoxelImages():# %% Plot images
-    numCol = 1
-    numRow = 1
-    voxels = VoxelCreate(numCol, numRow, ADP_img)
-    plt.figure()
-    i = 1;
-    for y in range(0, numRow, 1):
-        for x in range(0, numCol, 1):
-            plt.subplot(numCol, numRow, i)
-            # print(i)
-            plt.imshow(voxels[y][x])
-            i = i + 1
-
-    # %% 2 triangles up dir
-    numCol = 1
-    numRow = 1
-    voxels = VoxelCreate(numCol, numRow, ADP_img)
-
-    voxel_shape = voxels[0][0].shape  # grabs voxel shape
-    mask = np.zeros(voxel_shape, dtype=np.uint8)  # creates base mask
-    white = 255;
-
-    # #triangle 1
-    # pts1 =  np.array([[[0,0],[voxel_shape[1],0], [0,voxel_shape[0]]]])
-    # cv2.fillPoly(mask, pts1, white)
-
-    # mask_vox1 = cv2.bitwise_and(voxels[0][0],mask)
-    # plt.figure()
-    # plt.imshow(mask_vox1)
-
-    # Triangle 2
-    mask = np.zeros(voxel_shape, dtype=np.uint8)
-    pts2 = np.array([[[voxel_shape[1], voxel_shape[0]], [voxel_shape[1], 0], [0, voxel_shape[0]]]])
-
-    cv2.fillPoly(mask, pts2, white)
-
-    mask_vox2 = cv2.bitwise_and(voxels[0][0], mask)
-
-    plt.figure()
-    plt.imshow(mask_vox2)
-
 
 # %% 4 triangles for each voxel function
 
@@ -277,22 +234,79 @@ def tri4Voxel(voxels, numCol, numRow):
             out_voxels[y][x] = Tri_comb
     return out_voxels
 
-def Plot4Voxel():
-    numCol = 2
-    numRow = 2
-    voxels = VoxelCreate(numCol, numRow, ADP_img)
+def tri2UPVoxel(voxels,numCol,numRow):
+    out_voxels =  [[0 for x in range(numCol)] for y in range(numRow)]
+    
+    for y in range(0,numRow,1):
+        for x in range(0,numCol,1):
+            
+            voxel_shape = voxels[y][x].shape
+            white = 255; 
+            mask = np.zeros(voxel_shape, dtype = np.uint8) #creates base mask as same shape of voxel
+            
+            #triangle 1
+            pts1 =  np.array([[[0,0],[voxel_shape[1],0], [0,voxel_shape[0]]]])
+            cv2.fillPoly(mask, pts1, white) 
+            mask_vox1 = cv2.bitwise_and(voxels[y][x],mask)
+            
+            #triangle 2 
+            mask =  np.zeros(voxel_shape, dtype = np.uint8)
+            pts2 = np.array([[[voxel_shape[1],voxel_shape[0]],[voxel_shape[1],0], [0,voxel_shape[0]]]])
+            cv2.fillPoly(mask, pts2, white)
+            mask_vox2 = cv2.bitwise_and(voxels[y][x],mask)
+            
+            #combine all masks and save under each voxel(row,col, tri num)
+            Tri_comb = np.dstack((mask_vox1,mask_vox2))
+            out_voxels[y][x] = Tri_comb
+            
+    return out_voxels
 
-    outtest = tri4Voxel(voxels, numCol, numRow)
-    # plt.imshow(outtest[0][0][:,:,0]) Access data in correct format
+def tri2DOWNVoxel(voxels,numCol,numRow):
+    out_voxels =  [[0 for x in range(numCol)] for y in range(numRow)]
+    
+    for y in range(0,numRow,1):
+        for x in range(0,numCol,1):
+            
+            voxel_shape = voxels[y][x].shape
+            white = 255; 
+            mask = np.zeros(voxel_shape, dtype = np.uint8) #creates base mask as same shape of voxel
+            
+            #triangle 1
+            pts1 =  np.array([[[0,0],[voxel_shape[1],0], [voxel_shape[1],voxel_shape[0]]]])
+            cv2.fillPoly(mask, pts1, white) 
+            mask_vox1 = cv2.bitwise_and(voxels[y][x],mask)
+            
+            #triangle 2 
+            mask =  np.zeros(voxel_shape, dtype = np.uint8)
+            pts2 = np.array([[[0,0],[0,voxel_shape[0]],[voxel_shape[1],voxel_shape[0]]]])
+            cv2.fillPoly(mask, pts2, white)
+            mask_vox2 = cv2.bitwise_and(voxels[y][x],mask)
+            
+            #combine all masks and save under each voxel(row,col, tri num)
+            Tri_comb = np.dstack((mask_vox1,mask_vox2))
+            out_voxels[y][x] = Tri_comb
+            
+    return out_voxels
 
-    i = 1;
-    for y in range(0, numRow, 1):
-        for x in range(0, numCol, 1):
-            plt.subplot(numCol, numRow, i)
-            # print(i)
-            plt.imshow(voxels[y][x])
-            i = i + 1
+def CircleVoxel(voxels, numCol,numRow):  
+    out_voxels =  [[0 for x in range(numCol)] for y in range(numRow)]
+    
+    for y in range(0,numRow,1):
+        for x in range(0,numCol,1):
+            voxel_shape = voxels[y][x].shape
+            mask = np.zeros(voxel_shape, dtype = np.uint8) #creates base mask
+            
+            x_center = int(voxel_shape[1]/2)
+            y_center = int(voxel_shape[0]/2)
+            radius = y_center if y_center < x_center else x_center
 
+            cv2.circle(mask,(x_center,y_center), radius, 255,-1)
+
+            mask_vox = cv2.bitwise_and(voxels[y][x],mask)
+            out_voxels[y][x] = mask_vox
+            #out_voxels shape is [numCol][numRow]
+    return out_voxels
+    
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
     
     ##Determine Threshold and Erosion/Dilation polygon
