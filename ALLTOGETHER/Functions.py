@@ -402,11 +402,19 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
             gvg.loc[:,'avg_eccentricity'] = avg_eccentricity
 
         elif feature == 'avg_aspect_ratio':
-            avg_aspect_ratio = table['aspect_ratio'].mean()
+            if 'aspect_ratio' in table.columns:
+                avg_aspect_ratio = table['aspect_ratio'].mean()                
+            else:
+                aspect_ratio = table['minor_axis_length']/table['major_axis_length']
+                avg_aspect_ratio = aspect_ratio.mean()                
             gvg.loc[:,'avg_aspect_ratio'] = avg_aspect_ratio
 
         elif feature == 'avg_perimeter_area_ratio':
-            avg_perimeter_area_ratio = table['perimeter_area_ratio'].mean()
+            if 'perimeter_area_ratio' in table.columns:
+                avg_perimeter_area_ratio = table['perimeter_area_ratio'].mean()
+            else:
+                p_over_a = table['perimeter']/table['area']
+                avg_perimeter_area_ratio = p_over_a.mean()                
             gvg.loc[:,'avg_perimeter_area_ratio'] = avg_perimeter_area_ratio
 
         elif feature == 'avg_shading':
