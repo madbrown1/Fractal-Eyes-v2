@@ -171,7 +171,7 @@ def VoxelCreate(numCol, numRow, img):
     # This function will divide the image into user col and row voxels
 
     # Grab current size of image
-    w, h = img.shape
+    w, h, z = img.shape
     # Find pixel length and witdh for each grid
     numPixelCol = int(w / numCol)
     numPixelRow = int(h / numRow)

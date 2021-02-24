@@ -6,8 +6,8 @@
 
 import sys
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
-
-
+from PIL import Image
+import cv2
 
 import Functions as f
 
@@ -15,16 +15,21 @@ class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui,self).__init__()
         uic.loadUi("Ex_GUI.ui", self)
-
+        self.featureStrings = []
         self.PatientBool = False
         self.saveBool = False
         self.fileSelected = False
-
+        self.proceed = True
 
         self.button1 = self.findChild(QtWidgets.QPushButton, 'pushButton')
         self.button2 = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
         self.button3 = self.findChild(QtWidgets.QPushButton, 'pushButton_3')
         self.button4 = self.findChild(QtWidgets.QPushButton, 'pushButton_4')
+        self.radioCircle = self.findChild(QtWidgets.QRadioButton, 'radioButton')
+        self.radioRect = self.findChild(QtWidgets.QRadioButton, 'radioButton_2')
+        self.radio2tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_3')
+        self.radio4tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_4')
+
 
         self.button1.clicked.connect(self.ImportImage) #import Image
         self.button2.clicked.connect(self.ImportPatientData) #import patient data
@@ -47,6 +52,7 @@ class Ui(QtWidgets.QMainWindow):
     def SelectSave(self):
         self.saveDestination = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
         print(self.saveDestination)
+
         self.saveBool = True
 
 
@@ -55,30 +61,65 @@ class Ui(QtWidgets.QMainWindow):
                                                                             "Patient Data(*.txt *.dat)")
         self.PatientBool = True
 
+    def collectFeatures(self):
+
+        self.check1 = self.findChild(QtWidgets.QCheckBox, 'checkBox')
+        self.check2 = self.findChild(QtWidgets.QCheckBox, 'checkBox_2')
+        self.check3 = self.findChild(QtWidgets.QCheckBox, 'checkBox_3')
+        self.check4 = self.findChild(QtWidgets.QCheckBox, 'checkBox_4')
+
+        self.check6 = self.findChild(QtWidgets.QCheckBox, 'checkBox_6')
+        self.check7 = self.findChild(QtWidgets.QCheckBox, 'checkBox_7')
+
+        if self.check1.isChecked():
+            self.featureStrings.append('')
+        if self.check2.isChecked():
+            self.featureStrings.append('avg_area')
+        if self.check3.isChecked():
+            self.featureStrings.append('avg_perimeter')
+        if self.check4.isChecked():
+            self.featureStrings.append('avg_eccentricity')
+        if self.check6.isChecked():
+            self.featureStrings.append('avg_major_axis_length')
+        if self.check7.isChecked():
+            self.featureStrings.append('avg_minor_axis_length')
+
 
     def Fractalize(self):
         self.rowSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox')
         self.colSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox_2')
+        self.collectFeatures()
+        self.im = cv2.imread(self.ImagePath)
+        self.PatientBool = True
+        self.saveBool = True
+        if self.PatientBool and self.saveBool and self.fileSelected and self.rowSpin.value() != 0 and self.colSpin.value() != 0 and (
+                self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
 
-        if self.PatientBool and self.saveBool and self.fileSelected and self.rowSpin.value() != 0 and self.colSpin.value() != 0:
 
-
-            self.imgGrid = f.VoxelCreate(self.colSpin.value(),self.rowSpin.value(),self.ImagePath)
+            self.imgGrid = f.VoxelCreate(self.colSpin.value(),self.rowSpin.value(), self.im)
             #user decides voxel shape
-            # if user selects rectangle
-                #move on
-            #if user selects 2 triangles
-                #call tri 2 voxel
-            #if user selects 4 triangles
-            self.outVoxel = f.tri4Voxel(self.imgGrid, self.colSpin.value(),self.rowSpin.value())
-            # Still waiting for circles
+
+
+            if self.radio4tri.isChecked():
+                self.outVoxel = f.tri4Voxel(self.imgGrid, self.colSpin.value(),self.rowSpin.value())
+            elif self.radio2tri.isChecked():
+                print("Under Dev")
+
+            elif self.radioRect.isChecked():
+                print("Under Dev")
+
+            elif self.radioCircle.isChecked():
+                print("Under Dev")
+
+
+
             #Move on to image classification
                 #classification of image voxel through CNN
 
             ###FEATURE EXTRACTION
             self.labels = f.binary_thresholding(self.outVoxel)
             self.table = f.gain_regionprops(self.labels, self.outVoxel)
-            self.saveTable, self.gvg = f.data_calculation(self.table) #include list of strings as argument for features, )
+            self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
             f.data_organization(self.saveTable, self.gvg, self.saveDestination)
             #########################################################################################
 
@@ -105,6 +146,8 @@ class Ui(QtWidgets.QMainWindow):
                 print("Select a row value")
             if self.colSpin.value() == 0:
                 print("Select a column value")
+            if not (self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
+                print("Please select a voxel shape")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
