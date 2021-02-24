@@ -72,7 +72,7 @@ class Ui(QtWidgets.QMainWindow):
         self.check7 = self.findChild(QtWidgets.QCheckBox, 'checkBox_7')
 
         if self.check1.isChecked():
-            self.featureStrings.append('')
+            self.featureStrings.append('centroid')
         if self.check2.isChecked():
             self.featureStrings.append('avg_area')
         if self.check3.isChecked():
