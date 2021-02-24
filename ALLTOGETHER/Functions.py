@@ -424,6 +424,27 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
         elif feature == 'avg_pix_max':
             avg_pix_max = table['pix_max'].mean()
             gvg.loc[:,'avg_pix_max'] = avg_pix_max
+
+            
+
+    if not 'centroid' in feature_list:
+        del table['centroid-1']
+        del table['centroid-0']
+        
+    if not 'area' in feature_list:
+        del table['area']
+
+    if not 'perimeter' in feature_list:
+        del table['perimeter']
+        
+    if not 'eccentricity' in feature_list:
+        del table['eccentricity']
+
+    if not 'major_axis_length' in feature_list:
+        del table['major_axis_length']
+        
+    if not 'minor_axis_length' in feature_list:
+        del table['minor_axis_length']
         
     return table, gvg                                                                                                     
 
