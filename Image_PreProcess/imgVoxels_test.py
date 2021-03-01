@@ -49,6 +49,7 @@ def VoxelCreate(numCol, numRow, img):
             #Length of voxel is dependent on what position of the grid it is in
             
             imgGrid[y_h][x_w] = img[start_x:numPixelCol*(x_w+1),start_y:numPixelRow*(y_h+1)]
+            imgGrid[y_h][x_w]/255 #normalize the image 
             start_y = numPixelRow*(y_h+1)
         
         start_x = numPixelCol*(x_w+1)

@@ -189,12 +189,11 @@ def VoxelCreate(numCol, numRow, img):
             #Length of voxel is dependent on what position of the grid it is in
             
             imgGrid[y_h][x_w] = img[start_x:numPixelCol*(x_w+1),start_y:numPixelRow*(y_h+1)]
+            imgGrid[y_h][x_w]/255 #normalize the image
             start_y = numPixelRow*(y_h+1)
         
         start_x = numPixelCol*(x_w+1)
     return imgGrid
-
-# %% 4 triangles for each voxel function
 
 def tri4Voxel(voxels, numCol, numRow):
     out_voxels = [[0 for x in range(numCol)] for y in range(numRow)]
@@ -305,6 +304,7 @@ def CircleVoxel(voxels, numCol,numRow):
             mask_vox = cv2.bitwise_and(voxels[y][x],mask)
             out_voxels[y][x] = mask_vox
             #out_voxels shape is [numCol][numRow]
+            
     return out_voxels
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
