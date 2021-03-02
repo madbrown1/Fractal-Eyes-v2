@@ -116,11 +116,12 @@ class Ui(QtWidgets.QMainWindow):
                 #classification of image voxel through CNN
 
             ###FEATURE EXTRACTION
-            for voxel in self.outVoxel:
-                self.labels = f.binary_thresholding(voxel)
-                self.table = f.gain_regionprops(self.labels, voxel)
-                self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
-                f.data_organization(self.saveTable, self.gvg, self.saveDestination)
+            for n in range(0, self.rowSpin.value(),1):
+                for m in range(0, self.colSpin.value(),1):
+                    self.labels = f.binary_thresholding(self.outVoxel[n][m])
+                    self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
+                    self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
+                    f.data_organization(self.saveTable, self.gvg, self.saveDestination)
 
             #########################################################################################
 
