@@ -308,6 +308,25 @@ def CircleVoxel(voxels, numCol,numRow):
     return out_voxels
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
+
+    ##Gaussian Blur to reduce noise
+    vox = cv2.GaussianBlur(vox,(5,5),0)
+
+    ##Filter salt and pepper noise
+    count = 0
+    lastMedian = vox
+    median = cv2.medianBlur(vox, 3)
+    while not np.array_equal(lastMedian, median):
+        # get those pixels that gets zeroed out
+        zeroed = np.invert(np.logical_and(median, vox))
+        vox[zeroed] = 0
+
+        count = count + 1
+        if count > 50:
+            break
+        lastMedian = median
+        median = cv2.medianBlur(vox, 3)
+
     
     ##Determine Threshold and Erosion/Dilation polygon
     threshold = filters.threshold_otsu(vox) #Automatic        
