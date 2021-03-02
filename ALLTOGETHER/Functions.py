@@ -309,9 +309,6 @@ def CircleVoxel(voxels, numCol,numRow):
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
 
-    ##Greyscale the image
-    vox = cv2.cvtColor(vox, cv2.COLOR_BGR2GRAY)
-
     ##Gaussian Blur to reduce noise
     vox = cv2.GaussianBlur(vox,(5,5),0)
 
