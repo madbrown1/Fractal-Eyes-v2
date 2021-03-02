@@ -106,7 +106,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.outVoxel = f.tri2UPVoxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
 
             elif self.radioRect.isChecked():
-                print("Rectangeles")
+                self.outVoxel = self.imgGrid
             elif self.radioCircle.isChecked():
                 self.outVoxel = f.CircleVoxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
 
