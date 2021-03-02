@@ -101,15 +101,14 @@ class Ui(QtWidgets.QMainWindow):
 
 
             if self.radio4tri.isChecked():
-                self.outVoxel = f.tri4Voxel(self.imgGrid, self.colSpin.value(),self.rowSpin.value())
+                self.outVoxel = f.tri4Voxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
             elif self.radio2tri.isChecked():
-                print("Under Dev")
+                self.outVoxel = f.tri2UPVoxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
 
             elif self.radioRect.isChecked():
-                print("Under Dev")
-
+                print("Rectangeles")
             elif self.radioCircle.isChecked():
-                print("Under Dev")
+                self.outVoxel = f.CircleVoxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
 
 
 
@@ -117,10 +116,12 @@ class Ui(QtWidgets.QMainWindow):
                 #classification of image voxel through CNN
 
             ###FEATURE EXTRACTION
-            self.labels = f.binary_thresholding(self.outVoxel)
-            self.table = f.gain_regionprops(self.labels, self.outVoxel)
-            self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
-            f.data_organization(self.saveTable, self.gvg, self.saveDestination)
+            for voxel in self.outVoxel:
+                self.labels = f.binary_thresholding(voxel)
+                self.table = f.gain_regionprops(self.labels, voxel)
+                self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
+                f.data_organization(self.saveTable, self.gvg, self.saveDestination)
+
             #########################################################################################
 
 
