@@ -151,8 +151,15 @@ class Ui(QtWidgets.QMainWindow):
             if not (self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
                 print("Please select a voxel shape")
 
+class Ui2(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Ui2,self).__init__()
+        uic.loadUi("Ex_GUI2.ui", self)
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
+    window2 = Ui2()
     window.show()
+    window2.show()
     app.exec()
