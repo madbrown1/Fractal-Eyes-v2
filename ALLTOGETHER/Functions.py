@@ -358,9 +358,9 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
 def gain_regionprops(regions, vox): ##gain basic data values from each label
     
     ##Create Empty Arrays
-    pix_avg=[]
-    pix_min=[]
-    pix_max=[]
+    pix_avg = []
+    pix_min = []
+    pix_max = []
 
     ##Extract Basic Features
     props = regionprops_table(regions, properties=('centroid',
@@ -381,8 +381,8 @@ def gain_regionprops(regions, vox): ##gain basic data values from each label
         pixels = vox[locs]
         
         pix_avg.append(np.average(pixels))
-        pix_min.append(min(pixels))
-        pix_max.append(max(pixels))
+        pix_min.append(np.min(pixels))
+        pix_max.append(np.max(pixels))
 
     ##Calculate Pixel Data
     table.loc[:,'pix_avg'] = pix_avg
