@@ -114,6 +114,9 @@ class Ui(QtWidgets.QMainWindow):
             #Move on to image classification
                 #classification of image voxel through CNN
 
+
+            self.outputWindow.ImportImage(self.ImagePath)
+
             ###FEATURE EXTRACTION
             for n in range(0, self.rowSpin.value(),1):
                 for m in range(0, self.colSpin.value(),1):
@@ -143,11 +146,26 @@ class Ui2(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui2,self).__init__()
         uic.loadUi("Ex_GUI2.ui", self)
+        self.setWindowTitle("Output Window")
+
+    def ImportImage(self, imagePath):
+        self.ImagePath = imagePath
+        self.label3 = self.findChild(QtWidgets.QLabel, 'label_3')
+
+        if self.ImagePath != "":
+            pixmap = QtGui.QPixmap(self.ImagePath)
+
+            self.label3.setGeometry(0, 0, self.frameGeometry().width()/2.2, self.frameGeometry().height()/2.2)
+            self.label3.setScaledContents(True)
+
+            self.label3.setPixmap(pixmap)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window2 = Ui2()
-    window = Ui(Ui2)
-    window.show()
+    window = Ui(window2)
     window2.show()
+    window.show()
+
     app.exec()
