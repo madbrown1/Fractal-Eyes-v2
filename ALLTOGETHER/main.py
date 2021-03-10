@@ -125,17 +125,6 @@ class Ui(QtWidgets.QMainWindow):
             #########################################################################################
 
 
-            #image preprocessing functions
-                #image resizing
-                #image normalization
-                #image voxel creation
-            #Image Classification
-                #Classification of Image Voxel
-                #Trained CNN model
-            #Feature Extraction
-                #Extract Features
-                #Determine Meta Data
-            #output back through gui
         else:
             if not self.PatientBool:
                 print("Forgot to select a patient")
