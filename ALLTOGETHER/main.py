@@ -89,13 +89,12 @@ class Ui(QtWidgets.QMainWindow):
         self.rowSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox')
         self.colSpin = self.findChild(QtWidgets.QSpinBox, 'spinBox_2')
         self.collectFeatures()
-        self.im = cv2.imread(self.ImagePath)
-        self.PatientBool = True
-        self.saveBool = True
+
+
         if self.PatientBool and self.saveBool and self.fileSelected and self.rowSpin.value() != 0 and self.colSpin.value() != 0 and (
                 self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
 
-
+            self.im = cv2.imread(self.ImagePath)
             self.imgGrid = f.VoxelCreate(self.colSpin.value(),self.rowSpin.value(), self.im)
             #user decides voxel shape
 
