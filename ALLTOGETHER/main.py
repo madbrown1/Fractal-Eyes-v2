@@ -120,7 +120,7 @@ class Ui(QtWidgets.QMainWindow):
                     self.labels = f.binary_thresholding(self.outVoxel[n][m])
                     self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
                     self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
-                    f.data_organization(self.saveTable, self.gvg, self.saveDestination)
+                    f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
 
             #########################################################################################
 

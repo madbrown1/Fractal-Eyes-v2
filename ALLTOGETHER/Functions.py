@@ -309,6 +309,8 @@ def CircleVoxel(voxels, numCol,numRow):
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
 
+    vox = vox[:,:,1]
+
     ##Gaussian Blur to reduce noise
     vox = cv2.GaussianBlur(vox,(5,5),0)
 
@@ -337,7 +339,7 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
     vox_threshold = cv2.dilate(vox_threshold, kernel, iterations=5)
     vox_threshold = cv2.erode(vox_threshold, kernel, iterations=5)
 
-    cv2.cvtColor(vox_threshold, cv2.COLOR_BGR2GRAY)
+    
     
 
     ##Find Contours
