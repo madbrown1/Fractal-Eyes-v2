@@ -336,6 +336,8 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
     kernel= np.ones((10,10), np.uint8)
     vox_threshold = cv2.dilate(vox_threshold, kernel, iterations=5)
     vox_threshold = cv2.erode(vox_threshold, kernel, iterations=5)
+
+    cv2.cvtColor(vox_threshold, cv2.COLOR_BGR2GRAY)
     
 
     ##Find Contours
