@@ -341,7 +341,7 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
     
 
     ##Find Contours
-    contour,hier = cv2.findContours(vox_threshold,cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)
+    img, contour, hier = cv2.findContours(vox_threshold, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     ##Fill Contours
     for cnt in contour:
         cv2.drawContours(vox_threshold,[cnt],0,255,-1)

@@ -12,7 +12,7 @@ import cv2
 import Functions as f
 
 class Ui(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, Ui2):
         super(Ui,self).__init__()
         uic.loadUi("Ex_GUI.ui", self)
         self.featureStrings = []
@@ -20,7 +20,7 @@ class Ui(QtWidgets.QMainWindow):
         self.saveBool = False
         self.fileSelected = False
         self.proceed = True
-
+        self.outputWindow = Ui2
         self.button1 = self.findChild(QtWidgets.QPushButton, 'pushButton')
         self.button2 = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
         self.button3 = self.findChild(QtWidgets.QPushButton, 'pushButton_3')
@@ -146,8 +146,8 @@ class Ui2(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui()
     window2 = Ui2()
+    window = Ui(Ui2)
     window.show()
     window2.show()
     app.exec()
