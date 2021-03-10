@@ -491,14 +491,14 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
 
         
             
-def data_organization(vox_vals, GvG_vals, path): ##Serialize and save data for other subsystems
+def data_organization(vox_vals, GvG_vals, path, n, m): ##Serialize and save data for other subsystems
     
     ##If GvG_vals is empty, do no save it. If it is not,
     ##save it in the save input directory as vox_vals.
     if 'none' in GvG_vals:
-        vox_vals.to_pickle(path + '/voxel_values')
+        vox_vals.to_pickle(path + '/voxel_values'+str(n)+'_'+str(m))
     else:
-        vox_vals.to_pickle(path + '/voxel_values')
-        GvG_vals.to_pickle(path + '/gvg_values')
+        vox_vals.to_pickle(path + '/voxel_values'+str(n)+'_'+str(m))
+        GvG_vals.to_pickle(path + '/gvg_values'+str(n)+'_'+str(m))
         
     return
