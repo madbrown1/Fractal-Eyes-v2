@@ -94,7 +94,7 @@ class Ui_MainWindow(object):
         self.Feature1.setTabText(self.Feature1.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Feature 1", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Graph of data for specific Feature", None))
         self.Feature1.setTabText(self.Feature1.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Feature 2", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Table of Image Voxels labelled", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Table of Image Voxels labeled", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Save Data", None))
     # retranslateUi
 

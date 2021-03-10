@@ -125,6 +125,8 @@ class Ui(QtWidgets.QMainWindow):
                     self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
                     f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
 
+
+
             #########################################################################################
 
 
