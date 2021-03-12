@@ -506,3 +506,36 @@ def data_organization(vox_vals, GvG_vals, path, n, m): ##Serialize and save data
         GvG_vals.to_pickle(path + '/gvg_values'+str(n)+'_'+str(m))
         
     return
+
+
+def data_retrieve(n, m, featurepath, feature_string):
+
+    gainfile_v = featurepath+'/voxel_values'+str(n)+'_'+str(m)
+    gainfile_g = featurepath+'/gvg_values'+str(n)+'_'+str(m)
+    
+
+    if 'avg' in feature_string:
+        if not os.path.exists(gainfile_g):
+            raise Exception('Required Grid vs. Grid data does not exist')
+            quit()
+        else:
+            table = pd.read_pickle(gainfile_g)
+            data = table[feature_string]
+    else:
+        if not os.path.exists(gainfile_v):
+            raise Exception('Required Voxel Region data does not exist')
+            quit()
+        else:
+            table = pd.read_pickle(gainfile_v)
+            data = table[feature_string]
+        
+        
+    return data   
+
+    
+
+def save_data(n, m, data, path):
+    
+    data.to_csv(path+'/Save'+str(n)+'_'+str(m)+'.csv')
+
+    return
