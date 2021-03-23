@@ -30,7 +30,6 @@ class Ui(QtWidgets.QMainWindow):
         self.radio2tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_3')
         self.radio4tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_4')
 
-
         self.button1.clicked.connect(self.ImportImage) #import Image
         self.button2.clicked.connect(self.ImportPatientData) #import patient data
         self.button3.clicked.connect(self.SelectSave) #select save patient data
@@ -46,6 +45,7 @@ class Ui(QtWidgets.QMainWindow):
             self.label3.setScaledContents(True)
 
             self.label3.setPixmap(pixmap)
+
         self.fileSelected = True
 
 
@@ -127,6 +127,8 @@ class Ui(QtWidgets.QMainWindow):
 
 
 
+
+
             #########################################################################################
 
 
@@ -169,5 +171,4 @@ if __name__ == "__main__":
     window = Ui(window2)
     window2.show()
     window.show()
-
     app.exec()
