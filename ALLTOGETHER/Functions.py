@@ -400,7 +400,7 @@ def gain_regionprops(regions, vox): ##gain basic data values from each label
 def data_calculation(table, feature_list): ##Advanced data, based on list input
     cols = []
     for feature in feature_list: ##Determine if the GvG DataFrame will contain data
-        if 'avg' in feature:
+        if 'avg_' in feature:
             cols.append(feature)
     if not cols:
         cols = ['none']            
@@ -514,7 +514,7 @@ def data_retrieve(n, m, featurepath, feature_string):
     gainfile_g = featurepath+'/gvg_values'+str(n)+'_'+str(m)
     
 
-    if 'avg' in feature_string:
+    if 'avg_' in feature_string:
         if not os.path.exists(gainfile_g):
             raise Exception('Required Grid vs. Grid data does not exist')
             quit()
