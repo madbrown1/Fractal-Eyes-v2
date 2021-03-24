@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.widget_2)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(80, 100, 201, 31))
-        #self.Feature1.addTab(self.tab, "")
+        self.Feature1.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.widget_3 = QWidget(self.tab_2)
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         self.label_4 = QLabel(self.widget_3)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(80, 100, 201, 31))
-        #self.Feature1.addTab(self.tab_2, "")
+        self.Feature1.addTab(self.tab_2, "")
         self.tableView = QTableView(self.centralwidget)
         self.tableView.setObjectName(u"tableView")
         self.tableView.setGeometry(QRect(80, 340, 201, 111))
@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        #self.Feature1.setCurrentIndex(1)
+        self.Feature1.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -91,9 +91,9 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"image will load here", None))
         self.FRactalEyes.setText(QCoreApplication.translate("MainWindow", u"Fractal Eyes v2.0", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Graph of data for specific Feature", None))
-        #self.Feature1.setTabText(self.Feature1.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Feature 1", None))
+        self.Feature1.setTabText(self.Feature1.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Feature 1", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Graph of data for specific Feature", None))
-        #self.Feature1.setTabText(self.Feature1.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Feature 2", None))
+        self.Feature1.setTabText(self.Feature1.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Feature 2", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Table of Image Voxels labeled", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Save Data", None))
     # retranslateUi

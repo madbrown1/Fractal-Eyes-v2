@@ -136,15 +136,15 @@ class Ui(QtWidgets.QMainWindow):
 
             for feature in self.featureStrings:
                 print(feature)
-                self.outputWindow.AddTab(feature)
+                #self.outputWindow.AddTab(feature)
 
                 for n in range(0, self.rowSpin.value(),1):
                     for m in range(0, self.colSpin.value(),1):
                         xVals[count] = str(n) + str(m)
-                        yVals[count] = f.data_retrieve(n,m,self.saveDestination,feature)
+                        yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
                         count = count + 1
 
-                self.outputWindow.SetGraph(xVals,yVals)
+                self.outputWindow.SetGraph(xVals, yVals)
 
                 count = 0
 
@@ -197,7 +197,10 @@ class Ui2(QtWidgets.QMainWindow):
         self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
 
     def SetGraph(self, xVals, yVals):
-        self.label_4.plot(xVals,yVals)
+
+        self.label_2.setParent(None)
+        self.plot1 = pg.PlotWidget(self.widget_2)
+        self.widget_2.setGeometry(0, 0, 800, 800)
 
 
 if __name__ == "__main__":
