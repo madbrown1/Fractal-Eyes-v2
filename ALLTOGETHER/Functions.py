@@ -530,7 +530,7 @@ def data_retrieve(n, m, featurepath, feature_string):
             data = table[feature_string]
         
         
-    return data   
+    return data
 
     
 

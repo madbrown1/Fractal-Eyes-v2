@@ -8,6 +8,10 @@ import sys
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
 from PIL import Image
 import cv2
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
+import os
+
 
 import Functions as f
 
@@ -126,7 +130,23 @@ class Ui(QtWidgets.QMainWindow):
                     f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
 
 
+            count = 0
+            xVals = {}
+            yVals = {}
 
+            for feature in self.featureStrings:
+                print(feature)
+                self.outputWindow.AddTab(feature)
+
+                for n in range(0, self.rowSpin.value(),1):
+                    for m in range(0, self.colSpin.value(),1):
+                        xVals[count] = str(n) + str(m)
+                        yVals[count] = f.data_retrieve(n,m,self.saveDestination,feature)
+                        count = count + 1
+
+                self.outputWindow.SetGraph(xVals,yVals)
+
+                count = 0
 
 
             #########################################################################################
@@ -163,6 +183,21 @@ class Ui2(QtWidgets.QMainWindow):
             self.label3.setScaledContents(True)
 
             self.label3.setPixmap(pixmap)
+
+    def AddTab(self, name):
+        tab = QtWidgets.QWidget()
+        tab.setObjectName(name)
+        widget = QtWidgets.QWidget(tab)
+        widget.setObjectName(name + '_graph')
+        #widget.setGeometry(QtGui.QRect(30, 60, 351, 231))
+        plotGraph = pg.PlotWidget(widget)
+
+
+        self.Feature1.addTab(plotGraph, "")
+        self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
+
+    def SetGraph(self, xVals, yVals):
+        self.label_4.plot(xVals,yVals)
 
 
 if __name__ == "__main__":
