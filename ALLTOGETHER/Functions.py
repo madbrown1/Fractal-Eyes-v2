@@ -520,7 +520,7 @@ def data_retrieve(n, m, featurepath, feature_string):
             quit()
         else:
             table = pd.read_pickle(gainfile_g)
-            data = table[feature_string]
+            data = table._get_value(0,feature_string)
     else:
         if not os.path.exists(gainfile_v):
             raise Exception('Required Voxel Region data does not exist')
