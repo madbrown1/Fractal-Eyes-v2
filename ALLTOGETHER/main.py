@@ -204,14 +204,15 @@ class Ui2(QtWidgets.QMainWindow):
 
         figure = plt.figure()
         canvas = FigureCanvas(figure)
-        layout = QtWidgets.QHBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         self.widget_2.setLayout(layout)
         layout.addWidget(canvas)
 
+
         ax = figure.add_subplot(111)
-        ax.plot(xVals.values(), temp)
+        ax.scatter(xVals.values(), temp)
         ax.set(title = plotTitle, xlabel = 'Voxel Designation', ylabel = 'Value (in px)')
-        figure.tight_layout()
+
         #ax.set_xlabel('Voxel Designation')
 
         #ax.set_title(plotTitle)
