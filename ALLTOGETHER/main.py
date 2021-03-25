@@ -197,10 +197,21 @@ class Ui2(QtWidgets.QMainWindow):
         self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
 
     def SetGraph(self, xVals, yVals):
+        hour = [1,2,3,4]
+        temp = [30,32,34,40]
+        #self.widget_2.setParent(None)
 
-        self.label_2.setParent(None)
-        self.plot1 = pg.PlotWidget(self.widget_2)
-        self.widget_2.setGeometry(0, 0, 800, 800)
+        plot = pg.plot()
+        bargraph = pg.BarGraphItem(x=hour,height = temp, width = .6)
+        plot.addItem(bargraph)
+        layout = QtWidgets.QHBoxLayout()
+        self.widget_2.setLayout(layout)
+        layout.addWidget(plot)
+
+        #self.plot1 = pg.ScatterPlotWidget(self.tab)
+
+        #self.plot1.setData(dict(zip(hour, temp)))
+        #self.widget_2.setGeometry(0, 0, 800, 800)
 
 
 if __name__ == "__main__":
