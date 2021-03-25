@@ -11,7 +11,9 @@ import cv2
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import os
-
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
 
 import Functions as f
 
@@ -144,7 +146,7 @@ class Ui(QtWidgets.QMainWindow):
                         yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
                         count = count + 1
 
-                self.outputWindow.SetGraph(xVals, yVals)
+                self.outputWindow.SetGraph(xVals, yVals, feature)
 
                 count = 0
 
@@ -196,22 +198,50 @@ class Ui2(QtWidgets.QMainWindow):
         self.Feature1.addTab(plotGraph, "")
         self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
 
-    def SetGraph(self, xVals, yVals):
-        hour = [1,2,3,4]
-        temp = [30,32,34,40]
-        #self.widget_2.setParent(None)
+    def SetGraph(self, xVals, yVals, plotTitle):
+        hour = [1, 2, 3, 4]
+        temp = [30, 32, 34, 40]
 
-        plot = pg.plot()
-        bargraph = pg.BarGraphItem(x=hour,height = temp, width = .6)
-        plot.addItem(bargraph)
+        figure = plt.figure()
+        canvas = FigureCanvas(figure)
         layout = QtWidgets.QHBoxLayout()
         self.widget_2.setLayout(layout)
-        layout.addWidget(plot)
+        layout.addWidget(canvas)
 
-        #self.plot1 = pg.ScatterPlotWidget(self.tab)
+        ax = figure.add_subplot(111)
+        ax.plot(xVals.values(), temp)
+        ax.set(title = plotTitle, xlabel = 'Voxel Designation', ylabel = 'Value (in px)')
+        figure.tight_layout()
+        #ax.set_xlabel('Voxel Designation')
 
-        #self.plot1.setData(dict(zip(hour, temp)))
-        #self.widget_2.setGeometry(0, 0, 800, 800)
+        #ax.set_title(plotTitle)
+        #ax.set_ylabel('Value (in px)')
+        canvas.draw()
+
+
+
+
+
+
+        #xdict = dict(enumerate(xVals))
+
+
+
+
+        #self.widget_2.setParent(None)
+
+        #plot = pg.plot()
+       # bargraph = pg.BarGraphItem(x=hour,height=temp, width = .6)
+        #plot.addItem(bargraph)
+
+        #stringaxis = pg.AxisItem(orientation='bottom')
+        #stringaxis.setTicks([xdict.items()])
+
+        #plot.set
+
+
+
+
 
 
 if __name__ == "__main__":
