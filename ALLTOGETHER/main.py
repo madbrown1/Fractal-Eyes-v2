@@ -135,7 +135,7 @@ class Ui(QtWidgets.QMainWindow):
             count = 0
             xVals = {}
             yVals = {}
-
+            graphNum = 1
             for feature in self.featureStrings:
                 print(feature)
                 #self.outputWindow.AddTab(feature)
@@ -146,7 +146,8 @@ class Ui(QtWidgets.QMainWindow):
                         yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
                         count = count + 1
 
-                self.outputWindow.SetGraph(xVals, yVals, feature)
+                self.outputWindow.SetGraph(xVals, yVals, feature,graphNum)
+                graphNum = graphNum + 1
 
                 count = 0
 
@@ -198,51 +199,55 @@ class Ui2(QtWidgets.QMainWindow):
         self.Feature1.addTab(plotGraph, "")
         self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
 
-    def SetGraph(self, xVals, yVals, plotTitle):
-        hour = [1, 2, 3, 4]
-        temp = [30, 32, 34, 40]
-
-        figure = plt.figure()
-        canvas = FigureCanvas(figure)
-        layout = QtWidgets.QVBoxLayout()
-        self.widget_2.setLayout(layout)
-        layout.addWidget(canvas)
+    def SetGraph(self, xVals, yVals, plotTitle, graphNum):
 
 
-        ax = figure.add_subplot(111)
-        ax.scatter(xVals.values(), temp)
-        ax.set(title = plotTitle, xlabel = 'Voxel Designation', ylabel = 'Value (in px)')
-
-        #ax.set_xlabel('Voxel Designation')
-
-        #ax.set_title(plotTitle)
-        #ax.set_ylabel('Value (in px)')
-        canvas.draw()
+        if graphNum == 1:
+            figure = plt.figure()
+            canvas = FigureCanvas(figure)
+            layout = QtWidgets.QGridLayout()
+            self.tab.setLayout(layout)
+            layout.addWidget(canvas)
 
 
 
+            ax = figure.add_subplot(111)
+            ax.scatter(xVals.values(), yVals.values())
+            ax.set(title = plotTitle, xlabel = 'Voxel Designation', ylabel = 'Value (in px)')
 
 
+            xNames = list(xVals.values())
+            yNames = list(yVals.values())
+            yNames = [round(num,2) for num in yNames]
 
-        #xdict = dict(enumerate(xVals))
-
-
-
-
-        #self.widget_2.setParent(None)
-
-        #plot = pg.plot()
-       # bargraph = pg.BarGraphItem(x=hour,height=temp, width = .6)
-        #plot.addItem(bargraph)
-
-        #stringaxis = pg.AxisItem(orientation='bottom')
-        #stringaxis.setTicks([xdict.items()])
-
-        #plot.set
+            for i, txt in enumerate(yVals.values()):
+                ax.annotate(round(txt,2), (xNames[i], yNames[i]))
+            plt.tight_layout(pad=3)
 
 
+            canvas.draw()
 
 
+        elif graphNum ==2:
+            figure = plt.figure()
+            canvas = FigureCanvas(figure)
+            layout = QtWidgets.QGridLayout()
+            self.tab_2.setLayout(layout)
+            layout.addWidget(canvas)
+
+            ax = figure.add_subplot(111)
+            ax.scatter(xVals.values(), yVals.values())
+            ax.set(title=plotTitle, xlabel='Voxel Designation', ylabel='Value (in px)')
+
+            xNames = list(xVals.values())
+            yNames = list(yVals.values())
+            yNames = [round(num, 2) for num in yNames]
+
+            for i, txt in enumerate(yVals.values()):
+                ax.annotate(round(txt, 2), (xNames[i], yNames[i]))
+            plt.tight_layout(pad=4)
+
+            canvas.draw()
 
 
 if __name__ == "__main__":
