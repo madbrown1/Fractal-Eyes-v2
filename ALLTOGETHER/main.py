@@ -187,21 +187,11 @@ class Ui2(QtWidgets.QMainWindow):
 
             self.label3.setPixmap(pixmap)
 
-    def AddTab(self, name):
-        tab = QtWidgets.QWidget()
-        tab.setObjectName(name)
-        widget = QtWidgets.QWidget(tab)
-        widget.setObjectName(name + '_graph')
-        #widget.setGeometry(QtGui.QRect(30, 60, 351, 231))
 
-
-
-        self.Feature1.addTab(plotGraph, "")
-        self.Feature1.setTabText(self.Feature1.indexOf(tab), name)
 
     def SetGraph(self, xVals, yVals, plotTitle, graphNum):
 
-
+        self.pushButton.setParent(None)
         if graphNum == 1:
             figure = plt.figure()
             canvas = FigureCanvas(figure)
@@ -233,6 +223,28 @@ class Ui2(QtWidgets.QMainWindow):
             canvas = FigureCanvas(figure)
             layout = QtWidgets.QGridLayout()
             self.tab_2.setLayout(layout)
+            layout.addWidget(canvas)
+            ax = figure.add_subplot(111)
+            ax.scatter(xVals.values(), yVals.values())
+            ax.set(title=plotTitle, xlabel='Voxel Designation', ylabel='Value (in px)')
+
+            xNames = list(xVals.values())
+            yNames = list(yVals.values())
+            yNames = [round(num, 2) for num in yNames]
+
+            for i, txt in enumerate(yVals.values()):
+                ax.annotate(round(txt, 2), (xNames[i], yNames[i]))
+            plt.tight_layout(pad=4)
+
+            canvas.draw()
+
+        else:
+            tab = QtWidgets.QWidget()
+            self.Feature1.addTab(tab, "Feature" + str(graphNum))
+            figure = plt.figure()
+            canvas = FigureCanvas(figure)
+            layout = QtWidgets.QGridLayout()
+            tab.setLayout(layout)
             layout.addWidget(canvas)
 
             ax = figure.add_subplot(111)
