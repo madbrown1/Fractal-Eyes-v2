@@ -193,7 +193,7 @@ class Ui2(QtWidgets.QMainWindow):
         widget = QtWidgets.QWidget(tab)
         widget.setObjectName(name + '_graph')
         #widget.setGeometry(QtGui.QRect(30, 60, 351, 231))
-        plotGraph = pg.PlotWidget(widget)
+
 
 
         self.Feature1.addTab(plotGraph, "")
