@@ -212,7 +212,7 @@ class Ui2(QtWidgets.QMainWindow):
 
             for i, txt in enumerate(yVals.values()):
                 ax.annotate(round(txt,2), (xNames[i], yNames[i]))
-            plt.tight_layout(pad=3)
+            plt.tight_layout(pad=4)
 
 
             canvas.draw()
