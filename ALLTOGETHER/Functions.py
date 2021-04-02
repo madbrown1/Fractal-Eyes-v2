@@ -329,28 +329,29 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
         lastMedian = median
         median = cv2.medianBlur(vox, 3)
 
+    ##Increase Image Contrast and Brightness
+    vox = cv2.normalize(vox, None, alpha=.5, beta=1.5, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    vox = np.clip(vox, 0, 1)
+    vox = (255*vox).astype(np.uint8)
+
     
     ##Determine Threshold and Erosion/Dilation polygon
     threshold = filters.threshold_otsu(vox) #Automatic        
 
     ##Threshold the Image and Erode/Dilate
     th, vox_threshold = cv2.threshold(vox, threshold, 255, cv2.THRESH_BINARY)
-    kernel= np.ones((10,10), np.uint8)
-    vox_threshold = cv2.dilate(vox_threshold, kernel, iterations=5)
-    vox_threshold = cv2.erode(vox_threshold, kernel, iterations=5)
-
-    
-    
+    ##Circle Kernel Erode/Dilate for smooother lines and to connect polygons
+    kernel_circle = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3),(-1,-1))
+    vox_threshold = cv2.dilate(vox_threshold, kernel_circle, iterations=7)
+    vox_threshold = cv2.erode(vox_threshold, kernel_circle, iterations=7)
+  
 
     ##Find Contours
-    contour, hier = cv2.findContours(vox_threshold, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    contour, hier = cv2.findContours(vox_threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     ##Fill Contours
     for cnt in contour:
         cv2.drawContours(vox_threshold,[cnt],0,255,-1)
     labels = measure.label(vox_threshold)
-
-    cv2.imshow("thresh",vox_threshold)
-    cv2.waitKey(500)
 
     return labels
 
