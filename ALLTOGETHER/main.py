@@ -40,6 +40,8 @@ class Ui(QtWidgets.QMainWindow):
         self.button2.clicked.connect(self.ImportPatientData) #import patient data
         self.button3.clicked.connect(self.SelectSave) #select save patient data
         self.button4.clicked.connect(self.Fractalize) #FRACTALIZE EXTRACT
+        self.outputWindow.pushButton.clicked.connect(self.outputWindow.saveData)
+
 
     def ImportImage(self):
         self.ImagePath, self.filter = QtWidgets.QFileDialog.getOpenFileName(None, 'OpenFile', '', "Image file(*.jpg *.png *.tif)")
@@ -134,7 +136,7 @@ class Ui(QtWidgets.QMainWindow):
 
             count = 0
             xVals = {}
-            yVals = {}
+            self.yVals = {}
             graphNum = 1
             for feature in self.featureStrings:
                 print(feature)
@@ -143,10 +145,11 @@ class Ui(QtWidgets.QMainWindow):
                 for n in range(0, self.rowSpin.value(),1):
                     for m in range(0, self.colSpin.value(),1):
                         xVals[count] = str(n) + str(m)
-                        yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
+                        self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
                         count = count + 1
 
-                self.outputWindow.SetGraph(xVals, yVals, feature,graphNum)
+                self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
+                self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
                 graphNum = graphNum + 1
 
                 count = 0
@@ -191,7 +194,7 @@ class Ui2(QtWidgets.QMainWindow):
 
     def SetGraph(self, xVals, yVals, plotTitle, graphNum):
 
-        self.pushButton.setParent(None)
+
         if graphNum == 1:
             figure = plt.figure()
             canvas = FigureCanvas(figure)
@@ -260,6 +263,27 @@ class Ui2(QtWidgets.QMainWindow):
             plt.tight_layout(pad=4)
 
             canvas.draw()
+
+
+    def SetVals(self, rowSpin, colSpin, Vals, saveDestination):
+        self.rowSpin = rowSpin
+        self.colSpin = colSpin
+        self.Vals = Vals
+        self.saveDestination = saveDestination
+
+
+    def saveData(self):
+
+
+        for n in range(0, self.rowSpin, 1):
+            for m in range(0, self.colSpin, 1):
+               f.save_data(n,m,self.Vals,self.saveDestination)
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
