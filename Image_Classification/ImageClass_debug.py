@@ -41,9 +41,7 @@ def VoxelCreate(numCol, numRow, img):
         start_x = numPixelCol*(x_w+1)
     return imgGrid
 
-Active_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Active"
-
-nonActive_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\NonActive"
+unprocess_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\unprocessed_img2"
 
 #%% Create smaller images using 3x3 
 
@@ -52,12 +50,12 @@ nonActive_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\NonActive"
 numCol = 3
 numRow = 3 
 
-DirList = os.listdir(nonActive_dir)
-newDir = r"C:\Users\THEma\Documents\ENGR498\Platelet\NonActive\imgs"
+DirList = os.listdir(unprocess_dir)
+newDir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Processed_imgs2"
 os.mkdir(newDir)
 
 for i in range(0,len(DirList),1):
-    img = cv2.imread(nonActive_dir +"\\" + DirList[i],cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread(unprocess_dir +"\\" + DirList[i],cv2.IMREAD_GRAYSCALE)
     img = img[0:885,:] #crop bottom out
     voxels = VoxelCreate(numCol,numRow, img)
     n = 1
@@ -68,12 +66,14 @@ for i in range(0,len(DirList),1):
             n = n + 1
             
 #%% modify data using tensorflow 
-Active_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Active\imgs"
+FullActive_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Full_Active"
 
-nonActive_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\NonActive\imgs"
+PartActive_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Partial_Active"
 
-DirList = os.listdir(Active_dir)
-newDir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Active\imgs_aug"
+Rest_dir = r"C:\Users\THEma\Documents\ENGR498\Platelet\Resting"
+
+DirList = os.listdir(Rest_dir)
+newDir =Rest_dir + r"\augs"
 os.mkdir(newDir)
 
 data_augmentation = tf.keras.Sequential([
@@ -82,12 +82,12 @@ data_augmentation = tf.keras.Sequential([
 ])
 
 for i in range(0,len(DirList),1):
-    img = cv2.imread(Active_dir +"\\" + DirList[i],cv2.IMREAD_COLOR)
+    img = cv2.imread(Rest_dir +"\\" + DirList[i],cv2.IMREAD_COLOR)
     img = tf.expand_dims(img,0)
     
-    for ii in range(7):
+    for ii in range(9):
         aug_img = data_augmentation(img)
-        cv2.imwrite(newDir + '\\' +'AUG'+str(ii) +'_'+ DirList[i],aug_img[0].numpy().astype("uint8"))
+        cv2.imwrite(newDir + '\\' +'AUG'+str(ii) +'_'+ str(i) + ".jpg",aug_img[0].numpy().astype("uint8"))
 #%% rename images to letnum        
 dir1 = r"C:\Users\THEma\Documents\ENGR498\Platelet\aug\NonActiveimgsaug"
 
@@ -100,7 +100,56 @@ for i in range(0,len(DirList),1):
     #os.rename(dir2 +"\\" + DirList[i],dir2 +"\\aug" + str(i) + ".tif")
     
 
-#%% train on top of augmented stuff
+#%% train on top of augmented stuff in three classes 
+image_size = (295,341)
+batch_size = 16
+img_dir = r'C:\Users\THEma\Documents\ENGR498\Platelet\augTHREE'
+train_ds = ds = tf.keras.preprocessing.image_dataset_from_directory(
+    img_dir,
+    validation_split=0.2,
+    subset="training",
+    seed=1337,
+    image_size=image_size,
+    batch_size=batch_size,
+    label_mode="categorical",
+)
+
+val_ds = tf.keras.preprocessing.image_dataset_from_directory(
+    img_dir,
+    validation_split=0.2,
+    subset="validation",
+    seed=1337,
+    image_size=image_size,
+    batch_size=batch_size,
+    label_mode="categorical",
+)
+
+train_ds = train_ds.prefetch(buffer_size=32)
+val_ds = val_ds.prefetch(buffer_size=32)
+
+base_model = tf.keras.applications.InceptionV3(
+    input_shape = (295,341, 3),
+    include_top=False,
+    weights="imagenet",
+    )
+
+base_model.trainable = False
+
+inputs = keras.Input(shape=(295,341, 3))
+
+x = base_model(inputs, training = False)
+x = keras.layers.experimental.preprocessing.Rescaling(1./255)(x)
+x = keras.layers.GlobalAveragePooling2D()(x)
+
+outputs = keras.layers.Dense(3,activation="softmax")(x)
+
+model = keras.Model(inputs, outputs)
+
+model.compile(optimizer = keras.optimizers.Adam(),
+              loss = keras.losses.CategoricalCrossentropy(from_logits=True),
+              metrics = ["accuracy"])
+
+#%%
 image_size = (295,341)
 batch_size = 16
 img_dir = r'C:\Users\THEma\Documents\ENGR498\Platelet\Augs'
@@ -125,7 +174,7 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 train_ds = train_ds.prefetch(buffer_size=32)
 val_ds = val_ds.prefetch(buffer_size=32)
 
-base_model = tf.keras.applications.MobileNetV2(
+base_model = tf.keras.applications.InceptionV3(
     input_shape = (295,341, 3),
     include_top=False,
     weights="imagenet",
@@ -137,6 +186,8 @@ inputs = keras.Input(shape=(295,341, 3))
 
 x = base_model(inputs, training = False)
 
+x = keras.layers.experimental.preprocessing.Rescaling(1./255)(x)
+
 x = keras.layers.GlobalAveragePooling2D()(x)
 
 outputs = keras.layers.Dense(1)(x)
@@ -147,7 +198,7 @@ model.compile(optimizer = keras.optimizers.Adam(),
               loss = keras.losses.BinaryCrossentropy(from_logits=True),
               metrics = ["accuracy"])
 #%%%
-for i in range(5,30,5):
+for i in range(5,35,5):
     his = model.fit(train_ds, epochs = i, validation_data=val_ds)
     plt.figure()
     plt.subplot(221)
