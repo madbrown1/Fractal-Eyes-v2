@@ -118,49 +118,8 @@ class Ui(QtWidgets.QMainWindow):
             elif self.radioCircle.isChecked():
                 self.outVoxel = f.CircleVoxel(self.imgGrid, self.colSpin.value(), self.rowSpin.value())
 
-
-
-
             self.outputWindow.ImportImage(self.ImagePath)
             self.popupwindow = Popup(self, self.rowSpin.value(), self.colSpin.value())
-
-
-            ###FEATURE EXTRACTION
-            for n in range(0, self.rowSpin.value(),1):
-                for m in range(0, self.colSpin.value(),1):
-                    self.labels = f.binary_thresholding(self.outVoxel[n][m])
-                    self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
-                    self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
-                    f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
-
-
-            count = 0
-            xVals = {}
-            self.yVals = {}
-            graphNum = 1
-            for feature in self.featureStrings:
-                print(feature)
-                #self.outputWindow.AddTab(feature)
-
-                for n in range(0, self.rowSpin.value(),1):
-                    for m in range(0, self.colSpin.value(),1):
-                        xVals[count] = str(n) + str(m)
-                        self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
-                        count = count + 1
-
-
-                self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-                self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
-                graphNum = graphNum + 1
-
-                
-
-                
-                count = 0
-
-
-            #########################################################################################
-
 
 
         else:
@@ -212,6 +171,8 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def FeatureExtractionSpecific(self,n,m):
+
+
         self.popupwindow.close()
         self.labels = f.binary_thresholding(self.outVoxel[n][m])
         self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
@@ -364,18 +325,18 @@ class Popup(QtGui.QMainWindow):
         label2 = QtWidgets.QLabel()
         label2.setText("OR")
 
-        rowCombo = QtWidgets.QComboBox()
-        colCombo = QtWidgets.QComboBox()
+        self.rowCombo = QtWidgets.QComboBox()
+        self.colCombo = QtWidgets.QComboBox()
 
         rowRange = [str(x).zfill(1) for x in range(maxN)]
         colRange = [str(x).zfill(1) for x in range(maxM)]
 
-        rowCombo.addItems(rowRange)
-        colCombo.addItems(colRange)
+        self.rowCombo.addItems(rowRange)
+        self.colCombo.addItems(colRange)
 
 
-        rowCombo.setAccessibleName("Row Index")
-        colCombo.setAccessibleName("Col Index")
+        self.rowCombo.setAccessibleName("Row Index")
+        self.colCombo.setAccessibleName("Col Index")
 
         allVoxelsButton = QtWidgets.QPushButton()
         allVoxelsButton.setText("All Voxels")
@@ -392,9 +353,9 @@ class Popup(QtGui.QMainWindow):
         hLayout3 = QtWidgets.QHBoxLayout()
 
         hLayout2.addWidget(label3)
-        hLayout2.addWidget(rowCombo)
+        hLayout2.addWidget(self.rowCombo)
         hLayout3.addWidget(label4)
-        hLayout3.addWidget(colCombo)
+        hLayout3.addWidget(self.colCombo)
 
         vlayout2.addLayout(hLayout2)
         vlayout2.addLayout(hLayout3)
@@ -412,8 +373,7 @@ class Popup(QtGui.QMainWindow):
 
         widget = QtWidgets.QWidget()
         widget.setLayout(vLayout)
-        self.rowComboVal = rowCombo.currentIndex()
-        self.colComboVal = colCombo.currentIndex()
+
         allVoxelsButton.clicked.connect(self.mainWindow.FeatureExtractionAll)
         specificVoxelButton.clicked.connect(self.SpecificVoxel)
 
@@ -422,7 +382,10 @@ class Popup(QtGui.QMainWindow):
         self.show()
         self.activateWindow()
     def SpecificVoxel(self):
-        self.mainWindow.FeatureExtractionSpecific(self.rowComboVal,self.colComboVal)
+
+        self.rowComboVal = int(self.rowCombo.currentText())
+        self.colComboVal = int(self.colCombo.currentText())
+        self.mainWindow.FeatureExtractionSpecific(self.rowComboVal, self.colComboVal)
 
 
 
