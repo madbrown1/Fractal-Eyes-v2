@@ -120,12 +120,11 @@ class Ui(QtWidgets.QMainWindow):
 
 
 
-            #Move on to image classification
-                #classification of image voxel through CNN
-
 
             self.outputWindow.ImportImage(self.ImagePath)
+            self.popupwindow = Popup(self, self.rowSpin.value(), self.colSpin.value())
 
+<<<<<<< Updated upstream
             ###FEATURE EXTRACTION
             for n in range(0, self.rowSpin.value(),1):
                 for m in range(0, self.colSpin.value(),1):
@@ -161,6 +160,8 @@ class Ui(QtWidgets.QMainWindow):
 
 
             #########################################################################################
+=======
+>>>>>>> Stashed changes
 
 
         else:
@@ -174,8 +175,72 @@ class Ui(QtWidgets.QMainWindow):
                 print("Select a row value")
             if self.colSpin.value() == 0:
                 print("Select a column value")
-            if not (self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
+            if not (
+                    self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
                 print("Please select a voxel shape")
+
+
+    def FeatureExtractionAll(self):
+
+        for n in range(0, self.rowSpin.value(),1):
+            for m in range(0, self.colSpin.value(),1):
+                self.labels = f.binary_thresholding(self.outVoxel[n][m])
+                self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
+                self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
+                f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
+
+
+        count = 0
+        xVals = {}
+        self.yVals = {}
+        graphNum = 1
+        for feature in self.featureStrings:
+            print(feature)
+            #self.outputWindow.AddTab(feature)
+
+            for n in range(0, self.rowSpin.value(),1):
+                for m in range(0, self.colSpin.value(),1):
+                    xVals[count] = str(n) + str(m)
+                    self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
+                    count = count + 1
+
+            self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
+            graphNum = graphNum + 1
+
+            count = 0
+
+    def FeatureExtractionSpecific(self,n,m):
+
+        self.labels = f.binary_thresholding(self.outVoxel[n][m])
+        self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
+        self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
+        f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
+
+
+        count = 0
+        xVals = {}
+        self.yVals = {}
+        graphNum = 1
+        for feature in self.featureStrings:
+            print(feature)
+            #self.outputWindow.AddTab(feature)
+
+
+            xVals[count] = str(n) + str(m)
+            self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
+            count = count + 1
+
+            self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
+            graphNum = graphNum + 1
+
+            count = 0
+
+            #########################################################################################
+
+
+
 
 class Ui2(QtWidgets.QMainWindow):
     def __init__(self):
@@ -198,8 +263,6 @@ class Ui2(QtWidgets.QMainWindow):
 
 
     def SetGraph(self, xVals, yVals, plotTitle, graphNum):
-
-
         if graphNum == 1:
             figure = plt.figure()
             canvas = FigureCanvas(figure)
@@ -287,8 +350,81 @@ class Ui2(QtWidgets.QMainWindow):
 
 
 
+class Popup(QtGui.QMainWindow):
+    def __init__(self, mainWindow, maxN, maxM):
+        super(Popup, self).__init__()
+        self.setGeometry(50,50,300,100)
+        self.setWindowTitle("Select Individual or All Voxels")
+        self.mainWindow = mainWindow
+        self.maxN = maxN
+        self.maxM = maxM
+
+        vLayout = QtWidgets.QVBoxLayout()
+        hLayout = QtWidgets.QHBoxLayout()
+        label = QtWidgets.QLabel()
+        label.setText("Select which voxels for processing:")
+        label2 = QtWidgets.QLabel()
+        label2.setText("OR")
+
+        rowCombo = QtWidgets.QComboBox()
+        colCombo = QtWidgets.QComboBox()
+
+        rowRange = [str(x).zfill(1) for x in range(maxN)]
+        colRange = [str(x).zfill(1) for x in range(maxM)]
+
+        rowCombo.addItems(rowRange)
+        colCombo.addItems(colRange)
 
 
+        rowCombo.setAccessibleName("Row Index")
+        colCombo.setAccessibleName("Col Index")
+
+        allVoxelsButton = QtWidgets.QPushButton()
+        allVoxelsButton.setText("All Voxels")
+        specificVoxelButton = QtWidgets.QPushButton()
+        specificVoxelButton.setText("Specific Voxel")
+        vlayout2 = QtWidgets.QVBoxLayout()
+
+        label3 = QtWidgets.QLabel()
+        label3.setText("Row Voxel Index")
+        label4 = QtWidgets.QLabel()
+        label4.setText("Col Voxel Index")
+
+        hLayout2 = QtWidgets.QHBoxLayout()
+        hLayout3 = QtWidgets.QHBoxLayout()
+
+        hLayout2.addWidget(label3)
+        hLayout2.addWidget(rowCombo)
+        hLayout3.addWidget(label4)
+        hLayout3.addWidget(colCombo)
+
+        vlayout2.addLayout(hLayout2)
+        vlayout2.addLayout(hLayout3)
+        vlayout2.addWidget(specificVoxelButton)
+        hLayout.addWidget(allVoxelsButton, 1)
+        hLayout.addWidget(label2,2)
+
+
+
+        hLayout.addLayout(vlayout2,3)
+
+
+        vLayout.addWidget(label, 1)
+        vLayout.addLayout(hLayout, 2)
+
+        widget = QtWidgets.QWidget()
+        widget.setLayout(vLayout)
+        self.rowComboVal = rowCombo.currentIndex()
+        self.colComboVal = colCombo.currentIndex()
+        allVoxelsButton.clicked.connect(self.mainWindow.FeatureExtractionAll)
+        specificVoxelButton.clicked.connect(self.SpecificVoxel)
+
+
+        self.setCentralWidget(widget)
+        self.show()
+
+    def SpecificVoxel(self):
+        self.mainWindow.FeatureExtractionSpecific(self.rowComboVal,self.colComboVal)
 
 
 
