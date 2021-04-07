@@ -124,7 +124,7 @@ class Ui(QtWidgets.QMainWindow):
             self.outputWindow.ImportImage(self.ImagePath)
             self.popupwindow = Popup(self, self.rowSpin.value(), self.colSpin.value())
 
-<<<<<<< Updated upstream
+
             ###FEATURE EXTRACTION
             for n in range(0, self.rowSpin.value(),1):
                 for m in range(0, self.colSpin.value(),1):
@@ -160,8 +160,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
             #########################################################################################
-=======
->>>>>>> Stashed changes
+
 
 
         else:
@@ -181,7 +180,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def FeatureExtractionAll(self):
-
+        self.popupwindow.close()
         for n in range(0, self.rowSpin.value(),1):
             for m in range(0, self.colSpin.value(),1):
                 self.labels = f.binary_thresholding(self.outVoxel[n][m])
@@ -205,13 +204,15 @@ class Ui(QtWidgets.QMainWindow):
                     count = count + 1
 
             self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
             graphNum = graphNum + 1
 
             count = 0
+        self.outputWindow.activateWindow()
+
 
     def FeatureExtractionSpecific(self,n,m):
-
+        self.popupwindow.close()
         self.labels = f.binary_thresholding(self.outVoxel[n][m])
         self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
         self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
@@ -232,14 +233,11 @@ class Ui(QtWidgets.QMainWindow):
             count = count + 1
 
             self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
             graphNum = graphNum + 1
 
             count = 0
-
-            #########################################################################################
-
-
+        self.outputWindow.activateWindow()
 
 
 class Ui2(QtWidgets.QMainWindow):
@@ -422,7 +420,7 @@ class Popup(QtGui.QMainWindow):
 
         self.setCentralWidget(widget)
         self.show()
-
+        self.activateWindow()
     def SpecificVoxel(self):
         self.mainWindow.FeatureExtractionSpecific(self.rowComboVal,self.colComboVal)
 
