@@ -491,7 +491,9 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
         
     if not 'minor_axis_length' in feature_list:
         del table['minor_axis_length']
-        
+
+
+
     return table, gvg                                                                                                     
 
         
@@ -530,13 +532,22 @@ def data_retrieve(n, m, featurepath, feature_string):
             table = pd.read_pickle(gainfile_v)
             data = table[feature_string]
         
-        
+   
     return data
 
     
 
-def save_data(n, m, data, path):
-    
-    data.to_csv(path+'/Save'+str(n)+'_'+str(m)+'.csv')
+def save_data(n, m, data, path, feature_list):
+            
+    data1 = pd.DataFrame.from_dict(data, orient = 'index')
+##    data2 = pd.DataFrame(columns = feature_list)
+##    i = 0
+##    for feature in feature_list:
+##        data2[feature] = data1.iloc[:,i]
+##        i = i+1
+##
+##    print(data2)
+##    
+    data1.to_csv(path+'/Save'+str(n)+'_'+str(m)+'.csv')
 
     return

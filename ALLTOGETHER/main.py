@@ -14,6 +14,7 @@ import os
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+import numpy as np
 
 import Functions as f
 
@@ -148,10 +149,14 @@ class Ui(QtWidgets.QMainWindow):
                         self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
                         count = count + 1
 
+
                 self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-                self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
+                self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
                 graphNum = graphNum + 1
 
+                
+
+                
                 count = 0
 
 
@@ -265,11 +270,12 @@ class Ui2(QtWidgets.QMainWindow):
             canvas.draw()
 
 
-    def SetVals(self, rowSpin, colSpin, Vals, saveDestination):
+    def SetVals(self, rowSpin, colSpin, Vals, saveDestination, featureStrings):
         self.rowSpin = rowSpin
         self.colSpin = colSpin
         self.Vals = Vals
         self.saveDestination = saveDestination
+        self.featureStrings = featureStrings
 
 
     def saveData(self):
@@ -277,7 +283,7 @@ class Ui2(QtWidgets.QMainWindow):
 
         for n in range(0, self.rowSpin, 1):
             for m in range(0, self.colSpin, 1):
-               f.save_data(n,m,self.Vals,self.saveDestination)
+               f.save_data(n,m,self.Vals,self.saveDestination, self.featureStrings)
 
 
 
