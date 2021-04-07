@@ -9,12 +9,15 @@ Image Classification function and debug
 import tensorflow as tf
 from tensorflow import keras
 import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 def VoxelCreate(numCol, numRow, img):
     #This function will divide the image into user col and row voxels 
     
     #Grab current size of image
-    w , h, z = img.shape
+    w , h = img.shape
     #Find pixel length and witdh for each grid
     numPixelCol = int(w/numCol)
     numPixelRow = int(h/numRow)
@@ -43,23 +46,29 @@ input_shape = (295,341) #Since image is only hrayscale
 Voxel_shape = (2,2)
 
 Voxel_path = r"C:\Users\THEma\Documents\ENGR498\Platelet Data\Original Images\Image24_24.png"
-img = cv2.imread(Voxel_path,cv2.IMREAD_GRAYSCALE) #edit for voxels
-voxels = VoxelCreate(2,2,img)
+IMG = cv2.imread(Voxel_path,cv2.IMREAD_GRAYSCALE) #edit for voxels
+voxels = VoxelCreate(2,2,IMG)
 
-
+#%% 
 model = keras.models.load_model(r'C:\Users\THEma\Documents\GitHub\Fractal-Eyes-v2\Image_Classification\Inceptionv3_3class')
-for i in range(0,Voxel_shape[1]*Voxel_shape[0], 1):
+
+#%%
+for x in range(0,2,1):
+    for y in range(0,2,1):
+        plt.figure()
+        plt.imshow(voxels[y][x])
+        img = np.dstack((voxels[y][x], voxels[y][x], voxels[y][x]))
     
-    if img.shape >= input_shape: #image voxel larger than training data
-        Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_AREA)
-    else:
-        Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_LINEAR)
-     #add create 3 dim image
-    img_array = keras.preprocessing.image.img_to_array(Img_r)
-    img_array = tf.expand_dims(img_array,0)
-    
-    predictions = model.predict(img_array)
-    print(predictions)
+        if img.shape >= input_shape: #image voxel larger than training data
+            Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_AREA)
+        else:
+            Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_LINEAR)
+         #add create 3 dim image
+        img_array = keras.preprocessing.image.img_to_array(Img_r)
+        img_array = tf.expand_dims(img_array,0)
+        
+        predictions = model.predict(img_array)
+        print(predictions)
     # if predictions[0] >= predictions:
     #     final_predict = 0 #not activated
     # else:
