@@ -146,8 +146,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.table = f.gain_regionprops(self.labels, self.outVoxel[n][m])
                 self.saveTable, self.gvg = f.data_calculation(self.table, self.featureStrings)
                 f.data_organization(self.saveTable, self.gvg, self.saveDestination,n,m)
-
-
+      
         count = 0
         xVals = {}
         self.yVals = {}
@@ -163,7 +162,7 @@ class Ui(QtWidgets.QMainWindow):
                     count = count + 1
 
             self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
             graphNum = graphNum + 1
 
             count = 0
@@ -194,7 +193,7 @@ class Ui(QtWidgets.QMainWindow):
             count = count + 1
 
             self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
-            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination, self.featureStrings)
+            self.outputWindow.SetVals(self.rowSpin.value(), self.colSpin.value(), self.yVals, self.saveDestination)
             graphNum = graphNum + 1
 
             count = 0
@@ -292,20 +291,19 @@ class Ui2(QtWidgets.QMainWindow):
             canvas.draw()
 
 
-    def SetVals(self, rowSpin, colSpin, Vals, saveDestination, featureStrings):
+    def SetVals(self, rowSpin, colSpin, Vals, saveDestination):
         self.rowSpin = rowSpin
         self.colSpin = colSpin
         self.Vals = Vals
         self.saveDestination = saveDestination
-        self.featureStrings = featureStrings
-
+       
 
     def saveData(self):
 
 
         for n in range(0, self.rowSpin, 1):
             for m in range(0, self.colSpin, 1):
-               f.save_data(n,m,self.Vals,self.saveDestination, self.featureStrings)
+               f.save_data(n,m,self.saveDestination)
 
 
 
