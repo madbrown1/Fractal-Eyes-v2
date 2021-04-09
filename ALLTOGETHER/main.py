@@ -36,7 +36,8 @@ class Ui(QtWidgets.QMainWindow):
         self.radioRect = self.findChild(QtWidgets.QRadioButton, 'radioButton_2')
         self.radio2tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_3')
         self.radio4tri = self.findChild(QtWidgets.QRadioButton, 'radioButton_4')
-
+        self.check1 = self.findChild(QtWidgets.QCheckBox, 'checkBox')
+        self.check1.setText("Shading")
         self.button1.clicked.connect(self.ImportImage) #import Image
         self.button2.clicked.connect(self.ImportPatientData) #import patient data
         self.button3.clicked.connect(self.SelectSave) #select save patient data
@@ -73,6 +74,7 @@ class Ui(QtWidgets.QMainWindow):
     def collectFeatures(self):
 
         self.check1 = self.findChild(QtWidgets.QCheckBox, 'checkBox')
+
         self.check2 = self.findChild(QtWidgets.QCheckBox, 'checkBox_2')
         self.check3 = self.findChild(QtWidgets.QCheckBox, 'checkBox_3')
         self.check4 = self.findChild(QtWidgets.QCheckBox, 'checkBox_4')
@@ -81,7 +83,7 @@ class Ui(QtWidgets.QMainWindow):
         self.check7 = self.findChild(QtWidgets.QCheckBox, 'checkBox_7')
 
         if self.check1.isChecked():
-            self.featureStrings.append('centroid')
+            self.featureStrings.append('shading')
         if self.check2.isChecked():
             self.featureStrings.append('avg_area')
         if self.check3.isChecked():
