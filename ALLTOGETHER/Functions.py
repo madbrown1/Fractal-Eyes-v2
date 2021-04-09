@@ -5,6 +5,9 @@ import os
 from os import walk
 import pandas as pd
 
+import tensorflow as tf
+from tensorflow import keras
+
 from skimage.draw import ellipse
 from skimage.measure import label, regionprops, regionprops_table
 from skimage.transform import rotate
@@ -169,9 +172,9 @@ def Feature_Extraction():
 
 def VoxelCreate(numCol, numRow, img):
     #This function will divide the image into user col and row voxels 
-    
+    img =  img[:,:,1]
     #Grab current size of image
-    w , h, z = img.shape
+    w , h= img.shape
     #Find pixel length and witdh for each grid
     numPixelCol = int(w/numCol)
     numPixelRow = int(h/numRow)
@@ -309,7 +312,7 @@ def CircleVoxel(voxels, numCol,numRow):
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
 
-    vox = vox[:,:,1]
+    #vox = vox[:,:,1]
 
     ##Gaussian Blur to reduce noise
     vox = cv2.GaussianBlur(vox,(5,5),0)
@@ -355,7 +358,33 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
 
     return labels
 
+def ImgClass(numCol,numRow,voxels):
+    input_shape = (295,341) #For Machine Learning model
+    #input number of rows/column and voxels that have been created
+    model = keras.models.load_model(r'C:\Users\THEma\Documents\GitHub\Fractal-Eyes-v2\Image_Classification\Inceptionv3_3class')
+    Final_Predict = np.zeros((numRow,numRow))
+    
+    for x in range(0,numCol,1):
+        for y in range(0,numRow,1):
+            img = np.dstack((voxels[y][x], voxels[y][x], voxels[y][x]))
+            
+            if img.shape >= input_shape: #image voxel larger than training data
+                Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_AREA)
+            else:
+                Img_r = cv2.resize(img,input_shape, interpolation = cv2.INTER_LINEAR)
+            #add create 3 dim image
+            img_array = keras.preprocessing.image.img_to_array(Img_r)
+            img_array = tf.expand_dims(img_array,0)
+        
+            predictions = model.predict(img_array)
+            #print(predictions) #[full,partial, rest]
 
+            Final_Predict[y,x] = np.argmax(predictions)
+            # 0 = Full  Active
+            # 1 = Partial Active
+            # 2 = Resting 
+            
+    return Final_Predict
 
 def gain_regionprops(regions, vox): ##gain basic data values from each label
     
