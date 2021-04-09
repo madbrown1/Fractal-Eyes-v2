@@ -234,6 +234,7 @@ def tri4Voxel(voxels, numCol, numRow):
             # combine all masks and save under each voxel(row,col, tri num)
             Tri_comb = np.dstack((mask_vox1, mask_vox2, mask_vox3, mask_vox4))
             out_voxels[y][x] = Tri_comb
+
     return out_voxels
 
 def tri2UPVoxel(voxels,numCol,numRow):

@@ -211,7 +211,7 @@ class Ui_MainWindow(object):
         self.radioButton_4.setText(QCoreApplication.translate("MainWindow", u"Four Triangles", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Image Voxel Shape", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Features to be Extracted", None))
-        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"Estimate Center", None))
+        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"Shading", None))
         self.checkBox_6.setText(QCoreApplication.translate("MainWindow", u"Major Axis Length", None))
         self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"Area", None))
         self.checkBox_7.setText(QCoreApplication.translate("MainWindow", u"Minor Axis Length", None))
