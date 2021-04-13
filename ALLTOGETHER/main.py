@@ -160,7 +160,7 @@ class Ui(QtWidgets.QMainWindow):
             for n in range(0, self.rowSpin.value(),1):
                 for m in range(0, self.colSpin.value(),1):
                     xVals[count] = str(n) + str(m)
-                    self.yVals[count] = f.data_retrieve(n, m, self.saveDestination,feature)
+                    self.yVals[count] = f.data_retrieve(n, m, self.saveDestination, feature)
                     count = count + 1
 
             self.outputWindow.SetGraph(xVals, self.yVals, feature,graphNum)
