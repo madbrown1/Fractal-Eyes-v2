@@ -3,23 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="aff3a3af-0754-4309-96c5-2f35bd450374" name="Default Changelist" comment="Updated Main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Save0_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Save0_0.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Save0_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Save0_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Save1_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Save1_0.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Save1_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Save1_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ex_GUI.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Ex_GUI.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gvg_values0_0" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values0_0" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gvg_values0_1" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values0_1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gvg_values1_0" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values1_0" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gvg_values1_1" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values1_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gvg_values2_0" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values2_0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gvg_values2_1" beforeDir="false" afterPath="$PROJECT_DIR$/gvg_values2_1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_Ex_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui_Ex_GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/voxel_values0_0" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values0_0" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/voxel_values0_1" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values0_1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/voxel_values1_0" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values1_0" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/voxel_values1_1" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values1_1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxel_values2_0" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values2_0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voxel_values2_1" beforeDir="false" afterPath="$PROJECT_DIR$/voxel_values2_1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,20 +101,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Updated Main" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>155</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>165</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self.rowComboVal" language="Python" />

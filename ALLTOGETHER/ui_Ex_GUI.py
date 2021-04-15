@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'Ex_GUIefzdhe.ui'
+## Form generated from reading UI file 'Ex_GUIVNwWCj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -125,47 +125,68 @@ class Ui_MainWindow(object):
         self.label_5.setFont(font5)
         self.groupBox_2 = QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(390, 310, 361, 141))
+        self.groupBox_2.setGeometry(QRect(390, 310, 371, 161))
         self.groupBox_2.setFont(font2)
-        self.formLayoutWidget_2 = QWidget(self.groupBox_2)
-        self.formLayoutWidget_2.setObjectName(u"formLayoutWidget_2")
-        self.formLayoutWidget_2.setGeometry(QRect(40, 30, 281, 91))
-        self.formLayout_2 = QFormLayout(self.formLayoutWidget_2)
-        self.formLayout_2.setObjectName(u"formLayout_2")
-        self.formLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.formLayout_2.setFieldGrowthPolicy(QFormLayout.ExpandingFieldsGrow)
-        self.formLayout_2.setRowWrapPolicy(QFormLayout.DontWrapRows)
-        self.formLayout_2.setHorizontalSpacing(8)
-        self.formLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.checkBox = QCheckBox(self.formLayoutWidget_2)
+        self.layoutWidget = QWidget(self.groupBox_2)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(11, 20, 360, 131))
+        self.gridLayout_2 = QGridLayout(self.layoutWidget)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.checkBox = QCheckBox(self.layoutWidget)
         self.checkBox.setObjectName(u"checkBox")
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.checkBox)
+        self.gridLayout_2.addWidget(self.checkBox, 0, 0, 1, 1)
 
-        self.checkBox_6 = QCheckBox(self.formLayoutWidget_2)
+        self.checkBox_6 = QCheckBox(self.layoutWidget)
         self.checkBox_6.setObjectName(u"checkBox_6")
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.checkBox_6)
+        self.gridLayout_2.addWidget(self.checkBox_6, 0, 1, 1, 1)
 
-        self.checkBox_2 = QCheckBox(self.formLayoutWidget_2)
+        self.checkBox_11 = QCheckBox(self.layoutWidget)
+        self.checkBox_11.setObjectName(u"checkBox_11")
+
+        self.gridLayout_2.addWidget(self.checkBox_11, 0, 2, 1, 1)
+
+        self.checkBox_2 = QCheckBox(self.layoutWidget)
         self.checkBox_2.setObjectName(u"checkBox_2")
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.checkBox_2)
+        self.gridLayout_2.addWidget(self.checkBox_2, 1, 0, 1, 1)
 
-        self.checkBox_7 = QCheckBox(self.formLayoutWidget_2)
+        self.checkBox_7 = QCheckBox(self.layoutWidget)
         self.checkBox_7.setObjectName(u"checkBox_7")
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.checkBox_7)
+        self.gridLayout_2.addWidget(self.checkBox_7, 1, 1, 1, 1)
 
-        self.checkBox_3 = QCheckBox(self.formLayoutWidget_2)
+        self.checkBox_12 = QCheckBox(self.layoutWidget)
+        self.checkBox_12.setObjectName(u"checkBox_12")
+
+        self.gridLayout_2.addWidget(self.checkBox_12, 1, 2, 1, 1)
+
+        self.checkBox_3 = QCheckBox(self.layoutWidget)
         self.checkBox_3.setObjectName(u"checkBox_3")
 
-        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.checkBox_3)
+        self.gridLayout_2.addWidget(self.checkBox_3, 2, 0, 1, 1)
 
-        self.checkBox_4 = QCheckBox(self.formLayoutWidget_2)
+        self.checkBox_4 = QCheckBox(self.layoutWidget)
         self.checkBox_4.setObjectName(u"checkBox_4")
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.checkBox_4)
+        self.gridLayout_2.addWidget(self.checkBox_4, 2, 1, 1, 1)
+
+        self.checkBox_9 = QCheckBox(self.layoutWidget)
+        self.checkBox_9.setObjectName(u"checkBox_9")
+
+        self.gridLayout_2.addWidget(self.checkBox_9, 2, 2, 1, 1)
+
+        self.checkBox_5 = QCheckBox(self.layoutWidget)
+        self.checkBox_5.setObjectName(u"checkBox_5")
+
+        self.gridLayout_2.addWidget(self.checkBox_5, 3, 0, 1, 1)
+
+        self.checkBox_8 = QCheckBox(self.layoutWidget)
+        self.checkBox_8.setObjectName(u"checkBox_8")
+
+        self.gridLayout_2.addWidget(self.checkBox_8, 3, 1, 1, 1)
 
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
@@ -213,10 +234,15 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Features to be Extracted", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"Shading", None))
         self.checkBox_6.setText(QCoreApplication.translate("MainWindow", u"Major Axis Length", None))
+        self.checkBox_11.setText(QCoreApplication.translate("MainWindow", u"Pixel Avg", None))
         self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"Area", None))
         self.checkBox_7.setText(QCoreApplication.translate("MainWindow", u"Minor Axis Length", None))
+        self.checkBox_12.setText(QCoreApplication.translate("MainWindow", u"Pixel Max", None))
         self.checkBox_3.setText(QCoreApplication.translate("MainWindow", u"Perimeter", None))
         self.checkBox_4.setText(QCoreApplication.translate("MainWindow", u"Eccentricity", None))
+        self.checkBox_9.setText(QCoreApplication.translate("MainWindow", u"Pixel Min", None))
+        self.checkBox_5.setText(QCoreApplication.translate("MainWindow", u"Aspect Ratio", None))
+        self.checkBox_8.setText(QCoreApplication.translate("MainWindow", u"Perimeter/Area Ratio", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Import Patient Data", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Select Save Location", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Fractalize & Extract", None))

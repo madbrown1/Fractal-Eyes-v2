@@ -78,9 +78,15 @@ class Ui(QtWidgets.QMainWindow):
         self.check2 = self.findChild(QtWidgets.QCheckBox, 'checkBox_2')
         self.check3 = self.findChild(QtWidgets.QCheckBox, 'checkBox_3')
         self.check4 = self.findChild(QtWidgets.QCheckBox, 'checkBox_4')
-
+        self.check5 = self.findChild(QtWidgets.QCheckBox, 'checkBox_5')
         self.check6 = self.findChild(QtWidgets.QCheckBox, 'checkBox_6')
         self.check7 = self.findChild(QtWidgets.QCheckBox, 'checkBox_7')
+        self.check8 = self.findChild(QtWidgets.QCheckBox, 'checkBox_8')
+        self.check9 = self.findChild(QtWidgets.QCheckBox, 'checkBox_9')
+        self.check11 = self.findChild(QtWidgets.QCheckBox, 'checkBox_11')
+        self.check12 = self.findChild(QtWidgets.QCheckBox, 'checkBox_12')
+
+
 
         if self.check1.isChecked():
             self.featureStrings.append('shading')
@@ -90,10 +96,23 @@ class Ui(QtWidgets.QMainWindow):
             self.featureStrings.append('avg_perimeter')
         if self.check4.isChecked():
             self.featureStrings.append('avg_eccentricity')
+        if self.check5.isChecked():
+            self.featureStrings.append('avg_aspect_ratio')
+
         if self.check6.isChecked():
             self.featureStrings.append('avg_major_axis_length')
         if self.check7.isChecked():
             self.featureStrings.append('avg_minor_axis_length')
+        if self.check8.isChecked():
+            self.featureStrings.append('avg_perimeter_area_ratio')
+        if self.check9.isChecked():
+            self.featureStrings.append('avg_pix_min')
+        if self.check11.isChecked():
+            self.featureStrings.append('avg_pix_avg')
+        if self.check12.isChecked():
+            self.featureStrings.append('avg_pix_max')
+
+
 
 
     def Fractalize(self):

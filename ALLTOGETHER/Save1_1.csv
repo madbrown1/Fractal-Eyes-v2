@@ -1,2 +1,2 @@
-,avg_major_axis_length,avg_minor_axis_length
-0,589.8724338150172,511.2636002715018
+,avg_area,avg_perimeter,avg_eccentricity,avg_aspect_ratio,avg_major_axis_length,avg_minor_axis_length,avg_perimeter_area_ratio,avg_pix_min,avg_pix_avg,avg_pix_max
+0,226378.0,2194.776695296637,0.49876740307431,0.8667358753567945,589.8724338150172,511.2636002715018,0.00969518546544557,0.0,78.9275547977277,255.0
