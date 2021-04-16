@@ -1,2 +1,2 @@
-,avg_area,avg_perimeter,avg_eccentricity,avg_major_axis_length,avg_minor_axis_length
-0,116209.0,1452.573249587293,0.7043957184544727,339.34943438595866,273.66689204399074
+,avg_shading,avg_area,avg_perimeter,avg_eccentricity,avg_major_axis_length,avg_minor_axis_length
+0,255.0,116209.0,1452.573249587293,0.7043957184544727,339.34943438595866,273.66689204399074

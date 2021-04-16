@@ -89,7 +89,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
         if self.check1.isChecked():
-            self.featureStrings.append('shading')
+            self.featureStrings.append('avg_shading')
         if self.check2.isChecked():
             self.featureStrings.append('avg_area')
         if self.check3.isChecked():

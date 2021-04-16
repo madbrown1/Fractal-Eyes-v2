@@ -316,7 +316,7 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
     #vox = vox[:,:,1]
 
     ##Gaussian Blur to reduce noise
-    vox = cv2.GaussianBlur(vox,(5,5),0)
+    vox = cv2.GaussianBlur(vox,(7,7),0)
 
     ##Filter salt and pepper noise
     count = 0
@@ -334,7 +334,7 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
         median = cv2.medianBlur(vox, 3)
 
     ##Increase Image Contrast and Brightness
-    vox = cv2.normalize(vox, None, alpha=.5, beta=1.5, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    vox = cv2.normalize(vox, None, alpha=.5, beta=1.9, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
     vox = np.clip(vox, 0, 1)
     vox = (255*vox).astype(np.uint8)
 
@@ -346,8 +346,8 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
     th, vox_threshold = cv2.threshold(vox, threshold, 255, cv2.THRESH_BINARY)
     ##Circle Kernel Erode/Dilate for smooother lines and to connect polygons
     kernel_circle = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3),(-1,-1))
-    vox_threshold = cv2.dilate(vox_threshold, kernel_circle, iterations=7)
-    vox_threshold = cv2.erode(vox_threshold, kernel_circle, iterations=7)
+    vox_threshold = cv2.dilate(vox_threshold, kernel_circle, iterations=10)
+    vox_threshold = cv2.erode(vox_threshold, kernel_circle, iterations=9)
   
 
     ##Find Contours
@@ -486,7 +486,11 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
             gvg.loc[:,'avg_perimeter_area_ratio'] = avg_perimeter_area_ratio
 
         elif feature == 'avg_shading':
-            avg_shading = table['shading'].mean()
+            if 'shading' in table.columns:
+                avg_shading = table['shading'].mean()
+            else:
+                shading = table['pix_max'] - table['pix_min']
+                avg_shading = shading.mean()
             gvg.loc[:,'avg_shading'] = avg_shading
 
         elif feature == 'avg_pix_avg':
