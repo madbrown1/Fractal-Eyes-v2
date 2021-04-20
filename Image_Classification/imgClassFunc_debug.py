@@ -78,7 +78,7 @@ for x in range(0,2,1):
         # 0 = Full  Active
         # 1 = Partial Active
         # 2 = Resting 
-        
+
 #%% Define function
 
 def ImgClass(numCol,numRow,voxels):
@@ -106,5 +106,5 @@ def ImgClass(numCol,numRow,voxels):
             # 1 = Partial Active
             # 2 = Resting 
             
-    return Final_Predict
+    return Final_Predict.tolist()
 
