@@ -190,7 +190,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
         self.imgClassificationTable = f.ImgClass(self.colSpin.value(),self.rowSpin.value(),self.outVoxel)
-        self.outputWindow.SetClassTable(self.outVoxel)
+        self.outputWindow.SetClassTable(self.imgClassificationTable)
         self.outputWindow.activateWindow()
 
 
@@ -225,7 +225,7 @@ class Ui(QtWidgets.QMainWindow):
 
 
         self.imgClassificationTable = f.ImgClass(self.colSpin.value(), self.rowSpin.value(), self.outVoxel)
-        self.outputWindow.SetClassTable(self.outVoxel[n][m])
+        self.outputWindow.SetClassTable(self.imgClassificationTable)
         self.outputWindow.activateWindow()
 
 
