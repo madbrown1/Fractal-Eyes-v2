@@ -187,6 +187,10 @@ class Ui(QtWidgets.QMainWindow):
             graphNum = graphNum + 1
 
             count = 0
+
+
+        self.imgClassificationTable = f.ImgClass(self.colSpin.value(),self.rowSpin.value(),self.outVoxel)
+        self.outputWindow.SetClassTable(self.outVoxel)
         self.outputWindow.activateWindow()
 
 
@@ -218,6 +222,10 @@ class Ui(QtWidgets.QMainWindow):
             graphNum = graphNum + 1
 
             count = 0
+
+
+        self.imgClassificationTable = f.ImgClass(self.colSpin.value(), self.rowSpin.value(), self.outVoxel)
+        self.outputWindow.SetClassTable(self.outVoxel[n][m])
         self.outputWindow.activateWindow()
 
 
@@ -317,7 +325,11 @@ class Ui2(QtWidgets.QMainWindow):
         self.colSpin = colSpin
         self.Vals = Vals
         self.saveDestination = saveDestination
-       
+
+    def SetClassTable(self, tableData):
+        self.model = TableModel(tableData)
+        self.tableView.setModel(self.model)
+
 
     def saveData(self):
 
@@ -326,6 +338,27 @@ class Ui2(QtWidgets.QMainWindow):
             for m in range(0, self.colSpin, 1):
                f.save_data(n,m,self.saveDestination)
 
+
+class TableModel(QtCore.QAbstractTableModel):
+    def __init__(self, data):
+        super(TableModel, self).__init__()
+        self._data = data
+
+    def data(self, index, role):
+        if role == QtCore.Qt.DisplayRole:
+            # See below for the nested-list data structure.
+            # .row() indexes into the outer list,
+            # .column() indexes into the sub-list
+            return self._data[index.row()][index.column()]
+
+    def rowCount(self, index):
+        # The length of the outer list.
+        return len(self._data)
+
+    def columnCount(self, index):
+        # The following takes the first sub-list, and returns
+        # the length (only works if all rows are an equal length)
+        return len(self._data[0])
 
 
 class Popup(QtGui.QMainWindow):
