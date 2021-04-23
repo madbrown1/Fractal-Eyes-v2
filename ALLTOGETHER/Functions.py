@@ -313,7 +313,8 @@ def CircleVoxel(voxels, numCol,numRow):
     
 def binary_thresholding(vox): ##Create binary mask and labels - only labels are output
 
-    #vox = vox[:,:,1]
+    if vox.ndim > 2:
+        vox = vox[:,:,1]
 
     ##Gaussian Blur to reduce noise
     vox = cv2.GaussianBlur(vox,(7,7),0)
@@ -505,28 +506,6 @@ def data_calculation(table, feature_list): ##Advanced data, based on list input
             avg_pix_max = table['pix_max'].mean()
             gvg.loc[:,'avg_pix_max'] = avg_pix_max
 
-            
-
-    if not 'centroid' in feature_list:
-        del table['centroid-1']
-        del table['centroid-0']
-        
-    if not 'area' in feature_list:
-        del table['area']
-
-    if not 'perimeter' in feature_list:
-        del table['perimeter']
-        
-    if not 'eccentricity' in feature_list:
-        del table['eccentricity']
-
-    if not 'major_axis_length' in feature_list:
-        del table['major_axis_length']
-        
-    if not 'minor_axis_length' in feature_list:
-        del table['minor_axis_length']
-
-
 
     return table, gvg                                                                                                     
 
@@ -573,8 +552,11 @@ def data_retrieve(n, m, featurepath, feature_string):
 
 def save_data(n, m, path):
     
+    gainfile_v = path+'/voxel_values'+str(n)+'_'+str(m)
     gainfile_g = path+'/gvg_values'+str(n)+'_'+str(m)
-    data = pd.read_pickle(gainfile_g)
-    data.to_csv(path+'/Save'+str(n)+'_'+str(m)+'.csv')
+    data = pd.read_pickle(gainfile_v)
+    data2 = pd.read_pickle(gainfile_g)
+    data2.to_csv(path+'/Save_GvG'+str(n)+'_'+str(m)+'.csv')
+    data.to_csv(path+'/Save_Vox'+str(n)+'_'+str(m)+'.csv')
 
     return
