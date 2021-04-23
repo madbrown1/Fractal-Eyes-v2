@@ -145,18 +145,18 @@ class Ui(QtWidgets.QMainWindow):
 
         else:
             if not self.PatientBool:
-                print("Forgot to select a patient")
+                self.ErrorPopup = ErrorPopUp("Select a patient")
             if not self.saveBool:
-                print("Forgot to select a save destination")
+                self.ErrorPopup = ErrorPopUp("Select a save destination")
             if not self.fileSelected:
-                print("Forgot to load in an image")
+                self.ErrorPopup = ErrorPopUp("Load in an image")
             if self.rowSpin.value() == 0:
-                print("Select a row value")
+                self.ErrorPopup = ErrorPopUp("Select a row value")
             if self.colSpin.value() == 0:
-                print("Select a column value")
+                self.ErrorPopup = ErrorPopUp("Select a column value")
             if not (
                     self.radio4tri.isChecked() or self.radio2tri.isChecked() or self.radioRect.isChecked() or self.radioCircle.isChecked()):
-                print("Please select a voxel shape")
+                self.ErrorPopup = ErrorPopUp("Select a voxel shape")
 
 
     def FeatureExtractionAll(self):
@@ -439,7 +439,40 @@ class Popup(QtGui.QMainWindow):
         self.colComboVal = int(self.colCombo.currentText())
         self.mainWindow.FeatureExtractionSpecific(self.rowComboVal, self.colComboVal)
 
+class ErrorPopUp(QtGui.QMainWindow):
+    def __init__(self, errorMessage):
+        super(ErrorPopUp, self).__init__()
+        self.setGeometry(100,100,300,100)
+        self.setWindowTitle("ERROR")
 
+        self.message = errorMessage
+
+
+        vLayout = QtWidgets.QVBoxLayout()
+
+        label = QtWidgets.QLabel()
+        label.setText("ERROR: " + self.message)
+
+
+
+        quitButton = QtWidgets.QPushButton()
+        quitButton.setText("Close")
+
+        vLayout.addWidget(label, 1)
+        vLayout.addWidget(quitButton, 2)
+
+        widget = QtWidgets.QWidget()
+        widget.setLayout(vLayout)
+
+        quitButton.clicked.connect(self.closeWindow)
+
+
+        self.setCentralWidget(widget)
+        self.show()
+        self.activateWindow()
+
+    def closeWindow(self):
+        self.close()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
