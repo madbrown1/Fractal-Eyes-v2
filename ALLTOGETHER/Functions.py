@@ -363,7 +363,13 @@ def binary_thresholding(vox): ##Create binary mask and labels - only labels are 
 def ImgClass(numCol,numRow,voxels):
     input_shape = (295,341) #For Machine Learning model
     #input number of rows/column and voxels that have been created
-    model = keras.models.load_model(r'C:\Users\THEma\Documents\GitHub\Fractal-Eyes-v2\Image_Classification\Inceptionv3_3class')
+
+    dirname = os.path.normpath(os.getcwd() + os.sep + os.pardir)
+    modelfilename = os.path.join(dirname, 'Image_Classification\Inceptionv3_3class')
+
+
+
+    model = keras.models.load_model(modelfilename)
     Final_Predict = np.zeros((numRow,numRow))
     
     for x in range(0,numCol,1):
