@@ -428,8 +428,10 @@ def gain_regionprops(regions, vox): ##gain basic data values from each label
     table.loc[:,'pix_max'] = pix_max
     table.loc[:,'pix_min'] = pix_min
 
-    ##For now, filter out small areas with hardcoded value
+    ##Filter out small areas
     table = table[table['area']>50]
+    m_area = int(table['area'].mean())
+    table = table[table['area']>(m_area / 16)]
 
     return table
 
