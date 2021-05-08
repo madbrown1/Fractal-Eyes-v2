@@ -45,7 +45,9 @@ for k in range(0,len(Dir_platelets),1):
     
     
         
-    
+# threshold = filters.threshold_otsu(vox)
+#th, vox_threshold = cv2.threshold(vox, threshold, 255, cv2.THRESH_BINARY)
+
     
     
     

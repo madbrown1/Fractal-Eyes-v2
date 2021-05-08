@@ -168,9 +168,9 @@ def CircleVoxel(voxels, numCol,numRow):
     return out_voxels
 
 #%% Plot images and proper way to loop through in order to display
-numCol = 5
-numRow = 4
-voxels = VoxelCreate(numCol, numRow, ADP_img)
+numCol = 3
+numRow = 3
+voxels = VoxelCreate(numCol, numRow, img)
 plt.figure()
 i = 1; 
 
